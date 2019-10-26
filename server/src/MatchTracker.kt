@@ -25,10 +25,11 @@ object MatchTracker {
 
     object Server {
         @JvmStatic
-        fun main(args: Array<String>) {
+        suspend fun main(args: Array<String>) {
             runBlocking {
                 val serverSocket = aSocket(selectorManager).tcp().bind(port = DefaultPort)
                 println("Echo Server listening at ${serverSocket.localAddress}")
+
                 while (true) {
                     val socket = serverSocket.accept()
                     println("Accepted $socket")
@@ -38,7 +39,7 @@ object MatchTracker {
                         try {
                             while (true) {
                                 val line = read.readUTF8Line()
-
+                                unserializeReq(line)
                                 write.writeStringUtf8("$line\n")
                             }
                         } catch (e: Throwable) {
@@ -50,7 +51,7 @@ object MatchTracker {
         }
 
 
-        fun unserializeReq(JSONReqLine: String){
+        fun unserializeReq(JSONReqLine: String?){
 
             val parser: Parser = Parser.default()
             val stringBuilder: StringBuilder = StringBuilder(JSONReqLine)

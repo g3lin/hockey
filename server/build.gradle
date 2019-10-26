@@ -5,6 +5,8 @@ buildscript {
     
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+
     }
 }
 
@@ -34,4 +36,5 @@ dependencies {
     compile "ch.qos.logback:logback-classic:$logback_version"
     compile "io.ktor:ktor-network:$ktor_version"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
+    implementation 'com.beust:klaxon:5.0.1'
 }

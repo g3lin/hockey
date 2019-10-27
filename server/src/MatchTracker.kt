@@ -24,8 +24,10 @@ object MatchTracker {
     val DefaultPort = 9002
 
     object Server {
+        lateinit var  ObjetMatchs : ListeDesMatch
+
         @JvmStatic
-        suspend fun main(args: Array<String>) {
+        suspend fun main() {
             runBlocking {
                 val serverSocket = aSocket(selectorManager).tcp().bind(port = DefaultPort)
                 println("Echo Server listening at ${serverSocket.localAddress}")
@@ -39,10 +41,14 @@ object MatchTracker {
                         try {
                             while (true) {
                                 val line = read.readUTF8Line()
-                                unserializeReq(line)
-                                write.writeStringUtf8("$line\n")
+                                val requestArgs= unserializeReq(line)
+                                val rep = craftResponse(requestArgs[0],requestArgs[1],requestArgs[2])
+                                if (line != null) {
+                                    write.writeStringUtf8(rep)
+                                }
                             }
                         } catch (e: Throwable) {
+                            print(e)
                             socket.close()
                         }
                     }
@@ -51,55 +57,104 @@ object MatchTracker {
         }
 
 
-        fun unserializeReq(JSONReqLine: String?){
+        private fun unserializeReq(JSONReqLine: String?):Array<String?> {
 
+            //Parse le message recu
             val parser: Parser = Parser.default()
             val stringBuilder: StringBuilder = StringBuilder(JSONReqLine)
             val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
             val req_objectType = json.string("objectType")
-            val req_objectRequested  = json.string("objectRequested")
+            val req_objectRequested = json.string("objectRequested")
             val req_idObjectRequested = json.string("idObjectRequested")
 
-            if (req_objectType.isNullOrBlank() or req_objectType.isNullOrBlank()){
-                print("error: Malformed request")
+            if (req_objectType.isNullOrBlank() or req_objectType.isNullOrBlank()) {
+                trackerError("error: Malformed request")
             }
 
-            print(req_objectType)
-            print(req_objectRequested)
-            print(req_idObjectRequested)
+            println(req_objectType)
+            println(req_objectRequested)
+            println(req_idObjectRequested)
+            return arrayOf(req_objectType,req_objectRequested,req_idObjectRequested)
+        }
 
+
+        private fun craftResponse(req_objectType:String?,req_objectRequested:String?,req_idObjectRequested:String?):String{
+            var rep = ""
             if(req_objectType == "request"){
                 // C'est une requete (c'est ce qu'on veut et ce que traite ce serveur)
                 // on va donc comparer l'objet requis pour savoir quoi lui renvoyer
                 when (req_objectRequested) {
-                    "ListeDesMatchs" -> {
-                        print("request")
+                    "ListeDesMatchs" ->  rep = handleListeDesMatchs()
 
 
-                    }
                     "Match" -> {
                         if(req_idObjectRequested.isNullOrBlank()){
-                            print("erreur")
+                            trackerError("erreur, pas d'objet de matchs spécifié")
+                        }
+                        else{
+                            rep = handleMatch(req_idObjectRequested)
                         }
 
                     }
 
-                    "Bet" -> {
-                        if(req_idObjectRequested.isNullOrBlank()){
-                            print("erreur")
-                        }
-
-                    }
-
-
-                    else -> print("erreur")
+                    "Bet" -> trackerError("erreur, ce serveur ne prend pas en charge les paris")
+                    else -> trackerError("erreur: message objet malformé")
                 }
             }
+            else trackerError("Message malformé \n Doit etre une requete sur ce serveur")
 
-
+            return rep
         }
 
+
+
+
+
+
+
+        private fun handleListeDesMatchs():String{
+            var rep = "{\"objectType\":\"response\",\"matchIDs\":["
+            for(match in ObjetMatchs.ListeDesMatch){
+                rep += "\"${match.matchID}\","
+            }
+            //Enleve la derniere virgule
+            rep = rep.dropLast(1)
+            rep += "]}"
+            println(rep)
+            return rep
+        }
+
+
+        private fun handleMatch(idMatchReq:String):String{
+            var rep = ""
+            var matchTrouve : Match? = null
+            for(match in ObjetMatchs.ListeDesMatch){
+                // On a trouvé le match avec l'ID correspondant
+                if(match.matchID == idMatchReq) matchTrouve = match
+            }
+            if (matchTrouve != null){
+                rep = "{\"objectType\":\"response\",\"match\":{"
+                rep += "\"matchID\":\"${matchTrouve.matchID}\","
+                rep += "\"nomEquipe1\":\"${matchTrouve.nomEquipe1}\","
+                rep += "\"nomEquipe2\":\"${matchTrouve.nomEquipe2}\","
+                rep += "\"chronometreSec\":\"${matchTrouve.chronometreSec}\","
+                rep += "\"PeriodeEnCours\":\"${matchTrouve.PeriodeEnCours}\","
+                rep += "\"scoreP1\":\"${matchTrouve.scoreP1.joinToString()}\","
+                rep += "\"scoreP2\":\"${matchTrouve.scoreP2.joinToString()}\","
+                rep += "\"scoreP3\":\"${matchTrouve.scoreP3.joinToString()}\","
+                rep += "\"penalites\":\"${matchTrouve.penalites.joinToString()}\""
+                rep += "}}"
+            }
+
+            else trackerError("Match non trouvé")
+            print(rep)
+            return rep
+        }
+
+        private fun trackerError(msg:String){
+            print(msg)
+        }
 
     }
 

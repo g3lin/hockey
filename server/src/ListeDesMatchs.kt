@@ -1,5 +1,5 @@
 package ca.udes
 
-class ListeDesMatch(ListeDesMatch: Array<Match>) {
+class ListeDesMatch(var ListeDesMatch: Array<Match>) {
 
 }

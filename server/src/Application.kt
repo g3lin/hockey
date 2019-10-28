@@ -20,6 +20,7 @@ fun Application.module(testing: Boolean = false) {
         for (match in ObjetMatchs.ListeDesMatch) {
 
             launch { match.updateChrono() }
+            launch { match.updateScores() }
         }
 
 

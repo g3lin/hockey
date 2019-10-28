@@ -59,17 +59,27 @@ object MatchTracker {
 
         private fun unserializeReq(JSONReqLine: String?):Array<String?> {
 
+            var req_objectType:String? = null
+            var req_objectRequested:String? = null
+            var req_idObjectRequested:String? = null
+
             //Parse le message recu
-            val parser: Parser = Parser.default()
-            val stringBuilder: StringBuilder = StringBuilder(JSONReqLine)
-            val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+            try {
 
-            val req_objectType = json.string("objectType")
-            val req_objectRequested = json.string("objectRequested")
-            val req_idObjectRequested = json.string("idObjectRequested")
+                val parser: Parser = Parser.default()
+                val stringBuilder: StringBuilder = StringBuilder(JSONReqLine)
+                val json: JsonObject = parser.parse(stringBuilder) as JsonObject
 
-            if (req_objectType.isNullOrBlank() or req_objectType.isNullOrBlank()) {
-                trackerError("error: Malformed request")
+                req_objectType = json.string("objectType")
+                req_objectRequested = json.string("objectRequested")
+                req_idObjectRequested = json.string("idObjectRequested")
+
+                if (req_objectType.isNullOrBlank() or req_objectType.isNullOrBlank()) {
+                    trackerError("error: Malformed request")
+                }
+            }
+            catch (e:Exception ){
+                trackerError(e.toString())
             }
 
             println(req_objectType)

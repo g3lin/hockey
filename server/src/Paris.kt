@@ -6,4 +6,8 @@ class Paris(val Match:Match,
             val sommeMisee:Int,
             var sommeGagnee:Int) {
 
+    init {
+
+    }
+
 }

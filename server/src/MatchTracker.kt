@@ -1,5 +1,6 @@
 package ca.udes
 
+
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import io.ktor.application.*
@@ -24,7 +25,6 @@ object MatchTracker {
     val DefaultPort = 9002
 
     object Server {
-        lateinit var  ObjetMatchs : ListeDesMatch
 
         @JvmStatic
         suspend fun main() {
@@ -125,7 +125,7 @@ object MatchTracker {
 
         private fun handleListeDesMatchs():String{
             var rep = "{\"objectType\":\"response\",\"matchIDs\":["
-            for(match in ObjetMatchs.ListeDesMatch){
+            for(match in objetMatchs.ListeDesMatch){
                 rep += "\"${match.matchID}\","
             }
             //Enleve la derniere virgule
@@ -139,7 +139,7 @@ object MatchTracker {
         private fun handleMatch(idMatchReq:String):String{
             var rep = ""
             var matchTrouve : Match? = null
-            for(match in ObjetMatchs.ListeDesMatch){
+            for(match in objetMatchs.ListeDesMatch){
                 // On a trouvé le match avec l'ID correspondant
                 if(match.matchID == idMatchReq) matchTrouve = match
             }

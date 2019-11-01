@@ -17,8 +17,6 @@ object BetHandler {
     val DefaultPort = 9001
 
     object Server {
-        lateinit var ObjetMatchs: ListeDesMatch
-        lateinit var ObjetParis: ListeDesParis
 
         @JvmStatic
         suspend fun main() {
@@ -77,7 +75,8 @@ object BetHandler {
                 req_objectRequested = json.string("objectRequested")
                 req_idObjectRequested = json.string("idObjectRequested")
 
-                var betU = json.obj("betUpdate")
+                var betU = json.obj("Bet")
+                print(betU.toString())
                 if (betU != null){
                     req_bet_matchID = betU.string("matchID")
                     req_bet_miseSur = betU.int("miseSur")
@@ -94,6 +93,9 @@ object BetHandler {
             println(req_objectType)
             println(req_objectRequested)
             println(req_idObjectRequested)
+            println(req_bet_matchID)
+            println(req_bet_miseSur)
+            println(req_bet_sommeMisee)
             return arrayOf(req_objectType, req_objectRequested, req_idObjectRequested,req_bet_matchID,req_bet_miseSur,req_bet_sommeMisee)
         }
 
@@ -116,6 +118,7 @@ object BetHandler {
             else if (req_objectType == "betUpdate"){
                 rep = handleBetCreation(req_bet_matchID, req_bet_miseSur, req_bet_sommeMisee)
 
+
             }
 
             else betError("Message malformé \n Doit etre un pari ou une requete sur un pari sur ce serveur")
@@ -124,33 +127,39 @@ object BetHandler {
         }
 
         private fun handleBetCreation(reqBetMatchid: String?, reqBetMisesur: Int?, reqBetSommemisee: Int?): String {
-            var rep : String = ""
+            var rep : String  = "{\"objectType\":\"response\"," +
+                    "\"status\":-1," +
+                    "}"
+
             if (reqBetMatchid.isNullOrBlank() or (reqBetMisesur==null) or (reqBetSommemisee == null)) betError("Mauvaise requete")
             else{
-                //Mettre Sémaphores ici
+                //SÉMAPHORE SUR LES PARIS
+                objetParis.semaBets.acquire()
+
                 val nbreParis = objetParis.ListeDesParis.size
 
 
                 var matchTrouve:Match? = null
-                for(match in ObjetMatchs.ListeDesMatch){
+                for(match in objetMatchs.ListeDesMatch){
                     // On a trouvé le match avec l'ID correspondant
                     if(match.matchID == reqBetMatchid) matchTrouve = match
                 }
                 if (matchTrouve != null ){
-                    val betID = matchTrouve.matchID + "_" + nbreParis
-                    val pariCree = Paris(matchTrouve, reqBetMisesur!!,betID,0,reqBetSommemisee!!,0)
-                    objetParis.ListeDesParis += pariCree
-                    rep  = "{\"objectType\":\"response\"," +
-                            "\"status\":0," +
-                            "\"betID\":\""+betID+"\"" +
-                            "}"
-                    return rep
+                    if (matchTrouve.PeriodeEnCours < 3) {
+                        val betID = matchTrouve.matchID + "_" + nbreParis
+                        val pariCree = Paris(matchTrouve, reqBetMisesur!!, betID, 0, reqBetSommemisee!!, 0.0)
+                        objetParis.ListeDesParis += pariCree
+                        rep = "{\"objectType\":\"response\"," +
+                                "\"status\":0," +
+                                "\"betID\":\"" + betID + "\"" +
+                                "}"
+
+                    }
                 }
                 // FIN SEMAPHORE PARIS ICI
+                objetParis.semaBets.release()
             }
-            rep  = "{\"objectType\":\"response\"," +
-                    "\"status\":-1," +
-                    "}"
+
             return rep
         }
 
@@ -158,9 +167,11 @@ object BetHandler {
 
 
         private fun handleBetRequest(req_idObjectRequested: String?):String {
+            objetParis.semaBets.acquire()
             var rep = ""
+
             var PariTrouve : Paris? = null
-            for(bet in ObjetParis.ListeDesParis){
+            for(bet in objetParis.ListeDesParis){
                 // On a trouvé le match avec l'ID correspondant
                 if(bet.betID == req_idObjectRequested) PariTrouve = bet
             }
@@ -174,9 +185,9 @@ object BetHandler {
                 rep += "\"betID\":\"${PariTrouve.betID}\""
                 rep += "}}"
             }
-
             else betError("Pari non trouvé")
 
+            objetParis.semaBets.release()
             return rep
         }
 

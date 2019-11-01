@@ -17,11 +17,8 @@ fun Application.module(testing: Boolean = false) {
         objetParis  = ListeDesParis(arrayOf<Paris>())
 
         val servMatch = MatchTracker.Server
-        servMatch.ObjetMatchs = objetMatchs
-
         val servBet = BetHandler.Server
-        servBet.ObjetMatchs = objetMatchs
-        servBet.ObjetParis = objetParis
+
 
         for (match in objetMatchs.ListeDesMatch) {
 

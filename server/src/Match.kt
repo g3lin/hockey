@@ -2,6 +2,7 @@ package ca.udes
 
 import kotlinx.coroutines.*
 import java.util.Random
+import kotlin.math.floor
 
 // 3 tiers temps de 20 mn
 // p1 s'arrete à 1200s
@@ -36,7 +37,8 @@ class Match(val matchID:String,
             delay(1000L)
         }
 
-        println("fin du match $nomEquipe1 VS $nomEquipe2 ID=$matchID")
+         println("fin du match $nomEquipe1 VS $nomEquipe2 ID=$matchID")
+         gestionEndGame()
     }
 
 
@@ -79,7 +81,59 @@ class Match(val matchID:String,
 
     }
 
+    fun gestionEndGame(){
+        //LIST ALL BETS ON THIS MATCH
+        objetParis.semaBets.acquire()
+        var ParisMatch:Array<Paris> = arrayOf<Paris>()
+        for (paris in objetParis.ListeDesParis){
+            paris.Status = 1
+            if(paris.Match == this){
+                ParisMatch += paris
+            }
+        }
 
+
+        //CALCULATE SCORES
+        var scoreFinal = arrayOf<Int>(0,0)
+        scoreFinal[0] = scoreP1[0]+scoreP2[0]+scoreP3[0]
+        scoreFinal[1] = scoreP1[1]+scoreP2[1]+scoreP3[1]
+
+        var winner:Int = 4
+        if(scoreFinal[0] > scoreFinal[1]) winner = 0
+        if(scoreFinal[0] < scoreFinal[1]) winner = 1
+        if(scoreFinal[0] == scoreFinal[1]) winner = 2
+
+        println("Le gagnant est l'équipe ${winner}")
+
+        // GET ALL THE MONEY PUT ON THE TABLE
+        var sommeTotale = 0
+        var sommeARepartir:Double
+        for (paris in ParisMatch){
+            sommeTotale += paris.sommeMisee
+        }
+        sommeARepartir = 0.75*sommeTotale
+
+        // GET ALL WINNING BETS
+        var sommeParieeParGagnants:Int = 0
+        var ParisMatchGagnants:Array<Paris> = arrayOf<Paris>()
+        for (paris in ParisMatch){
+            if(paris.miseSur == winner){
+                sommeParieeParGagnants += paris.sommeMisee
+                ParisMatchGagnants += paris
+            }
+        }
+
+        // AWARD WINNERS
+        for(paris in ParisMatchGagnants){
+            val sommeGagnee = sommeARepartir*(paris.sommeMisee/sommeParieeParGagnants)
+            paris.sommeGagnee = floor(sommeGagnee*100) /100 //Arrondit au centime inférieur
+        }
+
+        objetParis.semaBets.release()
+
+        //
+
+    }
 
 
 }

@@ -6,7 +6,7 @@ class Paris(
     val betID:String,
     var Status: Int,
     val sommeMisee:Int,
-    var sommeGagnee:Int) {
+    var sommeGagnee:Double) {
 
     init {
 

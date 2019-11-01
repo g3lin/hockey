@@ -30,7 +30,7 @@ object MatchTracker {
         suspend fun main() {
             runBlocking {
                 val serverSocket = aSocket(selectorManager).tcp().bind(port = DefaultPort)
-                println("Echo Server listening at ${serverSocket.localAddress}")
+                println("MatchTracker server listening at ${serverSocket.localAddress}")
 
                 while (true) {
                     val socket = serverSocket.accept()
@@ -158,7 +158,7 @@ object MatchTracker {
             }
 
             else trackerError("Match non trouvé")
-            print(rep)
+            //print(rep)
             return rep
         }
 

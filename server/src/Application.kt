@@ -4,7 +4,8 @@ import io.ktor.application.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-lateinit var  ObjetMatchs : ListeDesMatch
+lateinit var  objetMatchs : ListeDesMatch
+lateinit var objetParis :ListeDesParis
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -13,11 +14,16 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module(testing: Boolean = false) {
     runBlocking {
         initMatchs()
+        objetParis  = ListeDesParis(arrayOf<Paris>())
 
-        var serv = MatchTracker.Server
-        serv.ObjetMatchs = ObjetMatchs
+        val servMatch = MatchTracker.Server
+        servMatch.ObjetMatchs = objetMatchs
 
-        for (match in ObjetMatchs.ListeDesMatch) {
+        val servBet = BetHandler.Server
+        servBet.ObjetMatchs = objetMatchs
+        servBet.ObjetParis = objetParis
+
+        for (match in objetMatchs.ListeDesMatch) {
 
             launch { match.updateChrono() }
             launch { match.updateScores() }
@@ -25,13 +31,15 @@ fun Application.module(testing: Boolean = false) {
 
 
 
-        launch{ serv.main() }
+
+        launch{ servMatch.main() }
+        launch{ servBet.main() }
     }
 }
 
 fun initMatchs(){
     //Initialiser l'objet principal des matchs
-    ObjetMatchs = ListeDesMatch(arrayOf<Match>())
+    objetMatchs = ListeDesMatch(arrayOf<Match>())
 
     //Initialisons maintenant les matchs en cours
     val m1 = Match(
@@ -70,7 +78,7 @@ fun initMatchs(){
         arrayOf("Carton Rouge")
     )
 
-    ObjetMatchs.ListeDesMatch = arrayOf<Match>(m1,m2,m3)
+    objetMatchs.ListeDesMatch = arrayOf<Match>(m1,m2,m3)
 
 
 }

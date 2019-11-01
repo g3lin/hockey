@@ -60,7 +60,7 @@ class Match(val matchID:String,
                 when (PeriodeEnCours) {
                     1 -> scoreP1[1] += 1
                     2 -> scoreP2[1] += 1
-                    3 -> scoreP3[1] += 1
+                       3 -> scoreP3[1] += 1
                 }
                 println("But pour l'equipe $nomEquipe2 dans le match $matchID")
             }

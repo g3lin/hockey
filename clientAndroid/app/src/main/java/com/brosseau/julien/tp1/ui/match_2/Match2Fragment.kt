@@ -26,12 +26,39 @@ class Match2Fragment : Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_match_2, container, false)
 
-        val matchID: TextView = root.findViewById(R.id.text_match_2)
-        val textTeam1: TextView = root.findViewById(R.id.text_team_1)
-        val textTeam2: TextView = root.findViewById(R.id.text_team_2)
 
+
+
+
+        val matchID: TextView = root.findViewById(R.id.text_match_2)
+        (activity as MainActivity).getInfoAndUpdateUI("2","idMatch",matchID)
+
+        val textTeam1: TextView = root.findViewById(R.id.text_team_1)
         (activity as MainActivity).getInfoAndUpdateUI("2","nomEquipe1",textTeam1)
+
+        val textTeam2: TextView = root.findViewById(R.id.text_team_2)
         (activity as MainActivity).getInfoAndUpdateUI("2","nomEquipe2",textTeam2)
+
+        val textTemps: TextView = root.findViewById(R.id.text_temps)
+        (activity as MainActivity).getInfoAndUpdateUI("2","chronometreSec",textTemps)
+
+        val textPeriode: TextView = root.findViewById(R.id.text_period)
+        (activity as MainActivity).getInfoAndUpdateUI("2","PeriodeEnCours",textPeriode)
+
+        val textScore1: TextView = root.findViewById(R.id.text_score_1)
+        (activity as MainActivity).getInfoAndUpdateUI("2","scoreP1",textScore1)
+
+        val textScore2: TextView = root.findViewById(R.id.text_score_2)
+        (activity as MainActivity).getInfoAndUpdateUI("2","scoreP2",textScore2)
+
+        val textScore3: TextView = root.findViewById(R.id.text_score_3)
+        (activity as MainActivity).getInfoAndUpdateUI("2","scoreP3",textScore3)
+
+
+        val textPenalites: TextView = root.findViewById(R.id.text_event)
+        (activity as MainActivity).getInfoAndUpdateUI("2","penalites",textPenalites)
+
+
 
 
 
@@ -42,6 +69,11 @@ class Match2Fragment : Fragment() {
         */
 
         return root
+    }
+
+    fun updateInfos(){
+
+
     }
 
 }

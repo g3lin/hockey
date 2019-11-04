@@ -29,9 +29,11 @@ class Match2Fragment : Fragment() {
         val textTeam1: TextView = root.findViewById(R.id.text_team_1)
         val team2: TextView = root.findViewById(R.id.text_team_2)
 
+        /*
         match2ViewModel.matchID.observe(this, Observer { matchID.text = it })
         match2ViewModel.testText2.observe(this, Observer { textTeam1.text = it })
         match2ViewModel.nomEquipe2.observe(this, Observer { team2.text = it })
+        */
 
         return root
     }

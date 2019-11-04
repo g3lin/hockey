@@ -40,11 +40,12 @@ object MatchTracker {
                         val write = socket.openWriteChannel(autoFlush = true)
                         try {
                             while (true) {
+
                                 val line = read.readUTF8Line()
                                 val requestArgs= unserializeReq(line)
                                 val rep = craftResponse(requestArgs[0],requestArgs[1],requestArgs[2])
                                 if (line != null) {
-                                    write.writeStringUtf8(rep)
+                                    write.writeStringUtf8(rep+"\n")
                                 }
                             }
                         } catch (e: Throwable) {

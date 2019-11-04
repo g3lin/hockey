@@ -127,6 +127,7 @@ class Match(val matchID:String,
         for(paris in ParisMatchGagnants){
             val sommeGagnee = sommeARepartir*(paris.sommeMisee/sommeParieeParGagnants)
             paris.sommeGagnee = floor(sommeGagnee*100) /100 //Arrondit au centime inférieur
+
         }
 
         objetParis.semaBets.release()

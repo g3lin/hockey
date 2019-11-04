@@ -1,6 +1,7 @@
 package com.brosseau.julien.tp1
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -13,18 +14,31 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
+import android.widget.TextView
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Parser
+import com.brosseau.julien.tp1.ui.Client
 import kotlinx.coroutines.*
 import java.net.InetSocketAddress
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
+import io.ktor.util.cio.write
+import kotlinx.android.synthetic.main.fragment_match_1.*
+import kotlinx.android.synthetic.main.fragment_match_2.*
+import kotlinx.android.synthetic.main.fragment_match_2.text_team_1
 import kotlinx.coroutines.io.readUTF8Line
+import kotlinx.coroutines.io.writeByte
 import kotlinx.coroutines.io.writeStringUtf8
+import java.lang.Exception
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -32,8 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+           getInfoAndUpdateUI("2","nomEquipe1")
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -49,7 +62,18 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-    }
+        getInfoAndUpdateUI("2","nomEquipe1")
+
+
+        }
+
+
+
+
+
+        //getInfoAndUpdateUI("nomEquipe1")
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,5 +87,30 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+
+    private fun getInfoAndUpdateUI(id_match:String ,id_info: String ){
+        println(55)
+
+        thread {
+            try {
+                println(50)
+                val rep = Client.getInformationMatch(id_match,id_info)
+                println(44)
+                println(rep)
+                runOnUiThread(Runnable {})
+            }
+            catch (e:Exception) {
+                Snackbar.make(
+                    findViewById(R.id.fab),
+                    "Probleme de connection",
+                    Snackbar.LENGTH_LONG
+                )
+                    .show()
+            }
+        }
+
+
+    }
 
 }

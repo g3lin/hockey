@@ -31,6 +31,7 @@ fun Application.module(testing: Boolean = false) {
 
         launch{ servMatch.main() }
         launch{ servBet.main() }
+        //launch { client().main() }
     }
 }
 

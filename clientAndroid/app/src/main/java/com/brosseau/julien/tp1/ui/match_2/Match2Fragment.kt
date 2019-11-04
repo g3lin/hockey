@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.brosseau.julien.tp1.MainActivity
 import com.brosseau.julien.tp1.R
 import org.w3c.dom.Text
 
@@ -27,7 +28,12 @@ class Match2Fragment : Fragment() {
 
         val matchID: TextView = root.findViewById(R.id.text_match_2)
         val textTeam1: TextView = root.findViewById(R.id.text_team_1)
-        val team2: TextView = root.findViewById(R.id.text_team_2)
+        val textTeam2: TextView = root.findViewById(R.id.text_team_2)
+
+        (activity as MainActivity).getInfoAndUpdateUI("2","nomEquipe1",textTeam1)
+        (activity as MainActivity).getInfoAndUpdateUI("2","nomEquipe2",textTeam2)
+
+
 
         /*
         match2ViewModel.matchID.observe(this, Observer { matchID.text = it })
@@ -37,4 +43,5 @@ class Match2Fragment : Fragment() {
 
         return root
     }
+
 }

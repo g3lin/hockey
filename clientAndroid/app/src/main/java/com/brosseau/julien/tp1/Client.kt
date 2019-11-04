@@ -1,21 +1,15 @@
-package com.brosseau.julien.tp1.ui
+package com.brosseau.julien.tp1
 
 
-import android.util.Log
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
-import io.ktor.util.decodeString
-import io.ktor.util.moveToByteArray
-import kotlinx.android.synthetic.main.fragment_match_2.*
 import kotlinx.coroutines.Dispatchers
 import java.net.InetSocketAddress
 import kotlinx.coroutines.*
 import kotlinx.coroutines.io.*
-import kotlinx.io.charsets.decodeUTF8Line
 import java.nio.ByteBuffer
-import java.nio.charset.Charset
 
 class Client {
     companion object {

@@ -1,7 +1,6 @@
 package com.brosseau.julien.tp1
 
 import android.os.Bundle
-import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -14,22 +13,8 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
-import android.view.View
 import android.widget.TextView
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Parser
-import com.brosseau.julien.tp1.ui.Client
 import kotlinx.coroutines.*
-import java.net.InetSocketAddress
-import io.ktor.network.selector.*
-import io.ktor.network.sockets.*
-import io.ktor.util.cio.write
-import kotlinx.android.synthetic.main.fragment_match_1.*
-import kotlinx.android.synthetic.main.fragment_match_2.*
-import kotlinx.android.synthetic.main.fragment_match_2.text_team_1
-import kotlinx.coroutines.io.readUTF8Line
-import kotlinx.coroutines.io.writeByte
-import kotlinx.coroutines.io.writeStringUtf8
 import java.lang.Exception
 import kotlin.concurrent.thread
 
@@ -46,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-           getInfoAndUpdateUI("2","nomEquipe1")
+           getInfoAndUpdateUI("2","nomEquipe1",null)
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -62,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        getInfoAndUpdateUI("2","nomEquipe1")
+        getInfoAndUpdateUI("2","nomEquipe1", null)
 
 
         }
@@ -89,16 +74,22 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    private fun getInfoAndUpdateUI(id_match:String ,id_info: String ){
-        println(55)
+    fun getInfoAndUpdateUI(id_match:String ,id_info: String, textviewAUpdate:TextView? ){
+
 
         thread {
             try {
-                println(50)
+
                 val rep = Client.getInformationMatch(id_match,id_info)
-                println(44)
                 println(rep)
-                runOnUiThread(Runnable {})
+                runOnUiThread(Runnable {
+                    try{
+                        updateUI(textviewAUpdate, rep)
+                    }
+                    catch (e:Exception){
+
+                    }
+                })
             }
             catch (e:Exception) {
                 Snackbar.make(
@@ -110,6 +101,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+    }
+
+    private fun updateUI(textviewAUpdate:TextView?, reponse:String?) {
+        if((textviewAUpdate != null) and (reponse != null)){
+            textviewAUpdate!!.text = reponse
+        }
 
     }
 

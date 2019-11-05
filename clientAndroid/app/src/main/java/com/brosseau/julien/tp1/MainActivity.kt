@@ -13,10 +13,17 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_tools.*
 import kotlinx.coroutines.*
 import java.lang.Exception
 import kotlin.concurrent.thread
+
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
+            refreshFragment()
            getInfoAndUpdateUI("2","nomEquipe1",null)
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -48,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         getInfoAndUpdateUI("2","nomEquipe1", null)
+
+
 
 
         }
@@ -108,6 +118,24 @@ class MainActivity : AppCompatActivity() {
         if((textviewAUpdate != null) and (reponse != null)){
             textviewAUpdate!!.text = reponse
         }
+
+    }
+
+
+    fun refreshFragment() {
+        //find current fragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val frag = navHostFragment!!.childFragmentManager.fragments[0]
+        //refresh it
+        val ft = navHostFragment!!.childFragmentManager.beginTransaction()
+        ft.detach(frag)
+        ft.attach(frag)
+        ft.commit()
+    }
+
+    fun validerParam(view: View){
+    portBet.text
+
 
     }
 

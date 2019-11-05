@@ -1,5 +1,6 @@
 package com.brosseau.julien.tp1
 
+import android.content.Context
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         thread {
             try {
 
-                val rep = Client.getMatchsEnCourS()
+                val rep = Client.getMatchsEnCours(this)
                 println(rep)
                 runOnUiThread(Runnable {
                     try{
@@ -113,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         thread {
             try {
 
-                val rep = Client.getInformationMatch(id_match,id_info)
+                val rep = Client.getInformationMatch(id_match,id_info,this)
                 println(rep)
                 runOnUiThread(Runnable {
                     try{
@@ -161,33 +162,41 @@ class MainActivity : AppCompatActivity() {
         val pBet = portBet.text.toString()
         val pMatch = portMatch.text.toString()
 
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putString(getString(R.string.saved_ip), IPServ)
+            putString(getString(R.string.saved_pBet), pBet)
+            putString(getString(R.string.saved_pMatch), pMatch)
+            commit()
+        }
+
+
 
 
 
 
     }
 
-    fun validerParis(view: View){
+    fun validerParis(view: View) {
         val montant = montantPari.text.toString()
-        val equipe  = Equipepari.text.toString()
+        val equipe = Equipepari.text.toString()
         val match = IDMatchPari.text.toString()
 
 
         thread {
             try {
 
-                val rep = Client.createBet(montant,match, equipe)
+                val rep = Client.createBet(montant, match, equipe,this)
                 println(rep)
                 runOnUiThread(Runnable {
-                    try{
+                    try {
                         //updateUI(textviewAUpdate, rep)
-                    }
-                    catch (e:Exception){
+                        updateBet(rep)
+                    } catch (e: Exception) {
 
                     }
                 })
-            }
-            catch (e:Exception) {
+            } catch (e: Exception) {
                 Snackbar.make(
                     findViewById(R.id.fab),
                     "Probleme de connection pour le pari ",
@@ -198,10 +207,30 @@ class MainActivity : AppCompatActivity() {
                 println(e.toString())
             }
         }
-
-
-
-
     }
+
+
+
+    fun getIP():String{
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val ip = resources.getString(R.string.saved_ip)
+        return ip
+    }
+
+
+    fun getpBet():Int {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val pBet = resources.getString(R.string.saved_pBet)
+        return pBet.toInt()
+    }
+
+    fun getpMatch():Int {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val pMatch = resources.getString(R.string.saved_pMatch)
+        return pMatch.toInt()
+    }
+
+
+
 
 }

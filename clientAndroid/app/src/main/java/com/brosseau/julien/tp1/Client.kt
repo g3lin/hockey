@@ -1,6 +1,10 @@
 package com.brosseau.julien.tp1
 
 
+import android.app.Activity
+import android.app.PendingIntent.getActivity
+import android.content.Context
+import android.provider.Settings.Global.getString
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import io.ktor.network.selector.*
@@ -13,12 +17,15 @@ import java.nio.ByteBuffer
 
 class Client {
     companion object {
-        private fun runRequest(req:String,port:Int):String {
+        private fun runRequest(req:String,port:Int,activite:MainActivity):String {
             var rep = ""
+
+
+
             runBlocking {
                 val socket =
                     aSocket(ActorSelectorManager(Dispatchers.IO)).tcp()
-                        .connect(InetSocketAddress("192.168.43.174", port))
+                        .connect(InetSocketAddress(activite.getIP(), port))
                 val input = socket.openReadChannel()
                 val output = socket.openWriteChannel(autoFlush = true)
                 val charset = Charsets.UTF_8
@@ -48,7 +55,7 @@ class Client {
 
 
 
-        fun getInformationMatch(id_match:String, id_info:String):String? {
+        fun getInformationMatch(id_match:String, id_info:String, activite: MainActivity):String? {
 
             var obj: JsonObject?
 
@@ -58,7 +65,7 @@ class Client {
 
             var rep = runRequest(
                 "{ \"objectType\": \"request\", \"objectRequested\" : \"Match\", \"idObjectRequested\" : \"$id_match\" }\n"
-            ,9002)
+            ,activite.getpMatch(),activite)
 
 
 
@@ -74,7 +81,7 @@ class Client {
 
 
 
-        fun getMatchsEnCourS():String{
+        fun getMatchsEnCours(activite: MainActivity):String{
 
             var obj: JsonObject?
 
@@ -84,7 +91,7 @@ class Client {
 
             var rep = runRequest(
                 "{ \"objectType\": \"request\", \"objectRequested\" : \"ListeDesMatchs\", \"idObjectRequested\" : \"\" }\n"
-            ,9002)
+            ,MainActivity().getpMatch(),activite)
 
             val stringBuilder: StringBuilder = StringBuilder(rep)
             val jsonObject: JsonObject = parser.parse(stringBuilder) as JsonObject
@@ -98,12 +105,12 @@ class Client {
             return rep_f
         }
 
-        fun createBet(montant:String, match:String, equipe:String):String{
+        fun createBet(montant:String, match:String, equipe:String, activite: MainActivity):String{
             var rep = ""
             if((montant.toInt() > 0) and (match.toInt() >=1) and (match.toInt() <=5) and (equipe.toInt() >=0) and (match.toInt() <=2)) {
                 val req =
                     "{\"objectType\":\"betUpdate\",\"Bet\":{\"matchID\":\"$match\",\"miseSur\":$equipe,\"sommeMisee\":$montant}}\n"
-                rep = runRequest(req,9001)
+                rep = runRequest(req,activite.getpBet(),activite)
             }
 
 

@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brosseau.julien.tp1.MainActivity
 import com.brosseau.julien.tp1.R
-import org.w3c.dom.Text
 
 class Match2Fragment : Fragment() {
 

@@ -14,11 +14,15 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_send.*
 import kotlinx.android.synthetic.main.fragment_tools.*
+import kotlinx.android.synthetic.main.content_main.nav_host_fragment
 import kotlinx.coroutines.*
 import java.lang.Exception
 import kotlin.concurrent.thread
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             refreshFragment()
-           getInfoAndUpdateUI("2","nomEquipe1",null)
+           //getInfoAndUpdateUI("2","nomEquipe1",null)
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -51,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_match_1, R.id.nav_match_2,
+                R.id.nav_match_3,R.id.nav_match_4,R.id.nav_match_5,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send
             ), drawerLayout
         )
@@ -89,13 +94,14 @@ class MainActivity : AppCompatActivity() {
             try {
 
                 val rep = Client.getMatchsEnCours(this)
-                println(rep)
+                println(rep[0])
                 runOnUiThread(Runnable {
                     try{
-                        updateUI(textviewAUpdate, rep)
+                        updateUI(textviewAUpdate, rep[0])
+                        hidePasMatchs(rep[1].toInt())
                     }
                     catch (e:Exception){
-
+                        print(e.toString())
                     }
                 })
             }
@@ -114,7 +120,13 @@ class MainActivity : AppCompatActivity() {
         thread {
             try {
 
-                val rep = Client.getInformationMatch(id_match,id_info,this)
+                var rep = Client.getInformationMatch(id_match,id_info,this)
+                if(id_info == "chronometreSec"){
+                    try {
+                        rep = "${rep!!.toInt() / 60}:${rep.toInt() % 60}"
+                    }
+                    catch (e:Exception){println(e.toString())}
+                }
                 println(rep)
                 runOnUiThread(Runnable {
                     try{
@@ -190,8 +202,7 @@ class MainActivity : AppCompatActivity() {
                 println(rep)
                 runOnUiThread(Runnable {
                     try {
-                        //updateUI(textviewAUpdate, rep)
-                        updateBet(rep)
+
                     } catch (e: Exception) {
 
                     }
@@ -228,6 +239,14 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
         val pMatch = resources.getString(R.string.saved_pMatch)
         return pMatch.toInt()
+    }
+
+    fun hidePasMatchs(nbreMatchs:Int){
+        if(nbreMatchs<5) findViewById<View>(R.id.nav_match_5).isVisible = false
+        if(nbreMatchs<4) findViewById<View>(R.id.nav_match_4).isVisible = false
+        if(nbreMatchs<3) findViewById<View>(R.id.nav_match_3).isVisible = false
+        if(nbreMatchs<2) findViewById<View>(R.id.nav_match_2).isVisible = false
+        if(nbreMatchs<1) findViewById<View>(R.id.nav_match_1).isVisible = false
     }
 
 

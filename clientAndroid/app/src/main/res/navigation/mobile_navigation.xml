@@ -22,6 +22,24 @@
         android:name="com.brosseau.julien.tp1.ui.match_2.Match2Fragment"
         android:label="@string/menu_match_2"
         tools:layout="@layout/fragment_match_2" />
+    <fragment
+        android:id="@+id/nav_match_3"
+        android:name="com.brosseau.julien.tp1.ui.match_3.Match3Fragment"
+        android:label="Match 3"
+        tools:layout="@layout/fragment_match_3" />
+
+    <fragment
+        android:id="@+id/nav_match_4"
+        android:name="com.brosseau.julien.tp1.ui.match_4.Match4Fragment"
+        android:label="Match 4"
+        tools:layout="@layout/fragment_match_4" />
+    <fragment
+        android:id="@+id/nav_match_5"
+        android:name="com.brosseau.julien.tp1.ui.match_5.Match5Fragment"
+        android:label="Match 5"
+        tools:layout="@layout/fragment_match_5" />
+
+
 
     <fragment
         android:id="@+id/nav_tools"

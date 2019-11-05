@@ -81,7 +81,7 @@ class Client {
 
 
 
-        fun getMatchsEnCours(activite: MainActivity):String{
+        fun getMatchsEnCours(activite: MainActivity):Array<String>{
 
             var obj: JsonObject?
 
@@ -91,18 +91,21 @@ class Client {
 
             var rep = runRequest(
                 "{ \"objectType\": \"request\", \"objectRequested\" : \"ListeDesMatchs\", \"idObjectRequested\" : \"\" }\n"
-            ,MainActivity().getpMatch(),activite)
+            ,activite.getpMatch(),activite)
 
             val stringBuilder: StringBuilder = StringBuilder(rep)
             val jsonObject: JsonObject = parser.parse(stringBuilder) as JsonObject
             val ids = jsonObject.array<String>("matchIDs")
             var rep_f =""
+            var i = 0
             for (id in ids!!){
                 rep_f += "$id\n"
+                i+=1
             }
+            //activite.hidePasMatchs(i)
 
 
-            return rep_f
+            return arrayOf(rep_f,i.toString())
         }
 
         fun createBet(montant:String, match:String, equipe:String, activite: MainActivity):String{

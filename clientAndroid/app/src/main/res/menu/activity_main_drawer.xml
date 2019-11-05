@@ -21,6 +21,19 @@
                 android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/menu_match_2" />
 
+            <item
+                android:id="@+id/nav_match_3"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Match 3" />
+            <item
+                android:id="@+id/nav_match_4"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Match 4" />
+            <item
+                android:id="@+id/nav_match_5"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="Match 5" />
+
         </menu>
     </item>
 

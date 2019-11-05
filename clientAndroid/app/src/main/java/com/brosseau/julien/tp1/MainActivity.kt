@@ -16,6 +16,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_send.*
 import kotlinx.android.synthetic.main.fragment_tools.*
 import kotlinx.coroutines.*
 import java.lang.Exception
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        getInfoAndUpdateUI("2","nomEquipe1", null)
+        //getInfoAndUpdateUI("2","nomEquipe1", null)
 
 
 
@@ -82,11 +83,33 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun getMatchsAndUpdateUI(textviewAUpdate: TextView?){
+        thread {
+            try {
 
+                val rep = Client.getMatchsEnCourS()
+                println(rep)
+                runOnUiThread(Runnable {
+                    try{
+                        updateUI(textviewAUpdate, rep)
+                    }
+                    catch (e:Exception){
+
+                    }
+                })
+            }
+            catch (e:Exception) {
+                Snackbar.make(
+                    findViewById(R.id.fab),
+                    "Probleme de connection",
+                    Snackbar.LENGTH_LONG
+                )
+                    .show()
+            }
+        }
+    }
 
     fun getInfoAndUpdateUI(id_match:String ,id_info: String, textviewAUpdate:TextView? ){
-
-
         thread {
             try {
 
@@ -134,13 +157,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun validerParam(view: View){
-    portBet.text
+        val IPServ = ipServ.text.toString()
+        val pBet = portBet.text.toString()
+        val pMatch = portMatch.text.toString()
+
+
+
 
 
     }
 
     fun validerParis(view: View){
-        portBet.text
+        val montant = montantPari.text.toString()
+        val equipe  = Equipepari.text.toString()
+        val match = IDMatchPari.text.toString()
+
+
+        thread {
+            try {
+
+                val rep = Client.createBet(montant,match, equipe)
+                println(rep)
+                runOnUiThread(Runnable {
+                    try{
+                        //updateUI(textviewAUpdate, rep)
+                    }
+                    catch (e:Exception){
+
+                    }
+                })
+            }
+            catch (e:Exception) {
+                Snackbar.make(
+                    findViewById(R.id.fab),
+                    "Probleme de connection pour le pari ",
+                    Snackbar.LENGTH_LONG
+
+                )
+                    .show()
+                println(e.toString())
+            }
+        }
+
+
 
 
     }

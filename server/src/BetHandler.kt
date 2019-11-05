@@ -41,7 +41,7 @@ object BetHandler {
                                                             requestArgs[4] as Int?,
                                                             requestArgs[5] as Int?)
                                 if (line != null) {
-                                    write.writeStringUtf8(rep)
+                                    write.writeStringUtf8(rep+"\n")
                                 }
                             }
                         } catch (e: Throwable) {

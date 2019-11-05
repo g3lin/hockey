@@ -27,9 +27,15 @@
     <item android:title="Outils">
         <menu>
             <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Parier sur un match" />
+            <item
                 android:id="@+id/nav_tools"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Paramètres" />
+
+
 
         </menu>
     </item>

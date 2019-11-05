@@ -139,4 +139,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun validerParis(view: View){
+        portBet.text
+
+
+    }
+
 }

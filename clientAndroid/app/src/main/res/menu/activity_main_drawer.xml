@@ -44,6 +44,10 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="Parier sur un match" />
             <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Liste des paris" />
+            <item
                 android:id="@+id/nav_tools"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Paramètres" />

@@ -19,16 +19,19 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.brosseau.julien.tp1.Client.Companion.getBet
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_send.*
 import kotlinx.android.synthetic.main.fragment_tools.*
 import kotlinx.android.synthetic.main.content_main.nav_host_fragment
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Semaphore
 import java.lang.Exception
 import kotlin.concurrent.thread
-
-
-
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.inputmethod.InputMethodManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -176,9 +179,9 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
-            putString(getString(R.string.saved_ip), IPServ)
-            putString(getString(R.string.saved_pBet), pBet)
-            putString(getString(R.string.saved_pMatch), pMatch)
+            putString("savedIP", IPServ)
+            putString("saved_pBet", pBet)
+            putString("saved_pMatch", pMatch)
             commit()
         }
 
@@ -194,6 +197,13 @@ class MainActivity : AppCompatActivity() {
         val equipe = Equipepari.text.toString()
         val match = IDMatchPari.text.toString()
 
+        //Hide keyboard
+        val view = this.currentFocus
+        if (view != null) {
+            val imm =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
 
         thread {
             try {
@@ -202,6 +212,27 @@ class MainActivity : AppCompatActivity() {
                 println(rep)
                 runOnUiThread(Runnable {
                     try {
+                        if (rep.size > 1){
+
+                            val sharedPref = getPreferences(Context.MODE_PRIVATE)
+                            var betsString = sharedPref.getString("bets", "")
+                            betsString += ",${rep[1]}"
+                            with (sharedPref.edit()) {
+                                putString("bets", betsString)
+                                commit()
+                            }
+
+
+
+                            Snackbar.make(
+                                findViewById(R.id.fab),
+                                "Pari enregistré ! ",
+                                Snackbar.LENGTH_LONG
+
+                            )
+                                .show()
+
+                        }
 
                     } catch (e: Exception) {
 
@@ -224,20 +255,20 @@ class MainActivity : AppCompatActivity() {
 
     fun getIP():String{
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val ip = resources.getString(R.string.saved_ip)
+        val ip = sharedPref.getString("saved_ip", "192.168.43.174")
         return ip
     }
 
 
     fun getpBet():Int {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val pBet = resources.getString(R.string.saved_pBet)
+        val pBet =sharedPref.getString("saved_pBet", "9001")
         return pBet.toInt()
     }
 
     fun getpMatch():Int {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val pMatch = resources.getString(R.string.saved_pMatch)
+        val pMatch =sharedPref.getString("saved_pMatch", "9002")
         return pMatch.toInt()
     }
 
@@ -250,6 +281,61 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun buildBetStatusString(Tview: TextView){
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val betsString = sharedPref.getString("bets", "")
+        val idBets = betsString.split(",")
+        println("la string est $betsString\n\n")
+        val sema = java.util.concurrent.Semaphore(1)
+        Tview.text = ""
 
+        for (idBet in idBets.drop(1)) {
+            println(idBet)
+
+            thread {
+                try {
+
+                    val rep = Client.getBet(idBet,this)
+                    //println(rep)
+                    runOnUiThread(Runnable {
+                        try {
+                            sema.acquire()
+
+                            var temp = Tview.text.toString()
+                            temp += rep
+                            Tview.text = temp
+
+                            sema.release()
+                        } catch (e: Exception) {
+                            sema.release()
+
+                        }
+                    })
+                } catch (e: Exception) {
+                    Snackbar.make(
+                        findViewById(R.id.fab),
+                        "Probleme de connection pour le pari ",
+                        Snackbar.LENGTH_LONG
+
+                    )
+                        .show()
+                    println(e.toString())
+                }
+            }
+        }
+
+    }
+
+    fun resetParis(view: View) {
+
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("bets", "")
+            commit()
+
+        }
+
+
+    }
 
 }

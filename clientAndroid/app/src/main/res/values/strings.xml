@@ -11,9 +11,7 @@
     <string name="menu_match_1">Match 1</string>
     <string name="menu_match_2">Match 2</string>
     <string name="menu_tools">Paramètres</string>
-    <string name="menu_share">Share</string>
+    <string name="menu_share">Liste des paris</string>
     <string name="menu_send">Paris</string>
-    <string name="saved_ip">192.168.43.174</string>
-    <string name="saved_pBet">9001</string>
-    <string name="saved_pMatch">9002</string>
+
 </resources>

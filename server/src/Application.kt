@@ -43,7 +43,7 @@ fun initMatchs(){
     val m1 = Match(
         "1",
         "Toronto Maple Leafs",
-        "Canadiens de Montréal",
+        "Canadiens de Montreal",
         0,
         1,
         intArrayOf(0, 0),
@@ -67,7 +67,7 @@ fun initMatchs(){
     val m3 = Match(
         "3",
         "Sherbrooke Phoenix",
-        "Red Wings de Détroit",
+        "Red Wings de Detroit",
         3300,
         3,
         intArrayOf(1, 3),

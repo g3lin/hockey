@@ -108,16 +108,62 @@ class Client {
             return arrayOf(rep_f,i.toString())
         }
 
-        fun createBet(montant:String, match:String, equipe:String, activite: MainActivity):String{
+
+
+
+
+        fun createBet(montant:String, match:String, equipe:String, activite: MainActivity):Array<String>{
             var rep = ""
+            val parser: Parser = Parser.default()
             if((montant.toInt() > 0) and (match.toInt() >=1) and (match.toInt() <=5) and (equipe.toInt() >=0) and (match.toInt() <=2)) {
                 val req =
                     "{\"objectType\":\"betUpdate\",\"Bet\":{\"matchID\":\"$match\",\"miseSur\":$equipe,\"sommeMisee\":$montant}}\n"
                 rep = runRequest(req,activite.getpBet(),activite)
+                val stringBuilder: StringBuilder = StringBuilder(rep)
+                val jsonObject: JsonObject = parser.parse(stringBuilder) as JsonObject
+                val status = jsonObject.int("status")
+                if(status!! == 0){
+                    val id = jsonObject.string("betID")
+                    return arrayOf(status.toString(),id!!)
+                }
+
+
             }
 
+            return arrayOf("Pari non réalisé")
 
-            return rep
+        }
+
+
+
+
+        fun getBet(idBet:String,activite:MainActivity):String{
+
+            var obj: JsonObject?
+
+            // Recuperer le JSON complet de la requete liee
+            val parser: Parser = Parser.default()
+            print(idBet)
+
+            var rep = runRequest(
+                "{\"objectType\":\"request\",\"objectRequested\":\"betStatus\",\"idObjectRequested\":\"$idBet\"}\n"
+                ,activite.getpBet(),activite)
+
+            val stringBuilder: StringBuilder = StringBuilder(rep)
+            val jsonObject: JsonObject = parser.parse(stringBuilder) as JsonObject
+            val betObj = jsonObject.obj("Bet")
+
+            println(betObj.toString())
+
+            var repFinale = "${betObj!!.string("betID")}\n" +
+                    "Vous avez parié ${betObj.string("sommeMisee")} \$ sur l'équipe ${betObj.string("miseSur")} " +
+                    "du match n° ${betObj.string("matchID")}\n"
+            if (betObj.string("Status")!!.toInt() == 1){
+                repFinale += "Le match est maintenant fini. Votre gain est de ${betObj.string("sommeGagnee")}"
+            }
+            repFinale += "\n"
+            return repFinale
+
         }
 
 

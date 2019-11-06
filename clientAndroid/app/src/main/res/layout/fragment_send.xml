@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/Equipepari"
         android:layout_width="wrap_content"
@@ -23,7 +24,8 @@
         android:layout_marginTop="39dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="10.00"
+        android:hint="0"
+        android:text="0"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IDMatchPari" />
@@ -48,6 +50,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="1"
+        android:text="1"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/montantPari" />
@@ -84,6 +87,7 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="10.00"
+        android:text="10.00"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_share" />

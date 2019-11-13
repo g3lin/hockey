@@ -1,0 +1,18 @@
+.navbar{
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    margin-bottom: 500px;
+}
+
+.padding{
+    padding-top: 75px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+}
+
+.card{
+    margin-right: 10px;
+    margin-left: 10px;
+
+}

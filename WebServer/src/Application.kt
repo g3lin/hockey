@@ -7,6 +7,7 @@ import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.content.*
 import io.ktor.http.content.*
+import kotlinx.coroutines.launch
 
 lateinit var  objetMatchs : ListeDesMatch
 lateinit var objetParis :ListeDesParis
@@ -20,6 +21,12 @@ fun Application.module(testing: Boolean = false) {
     //INITIALISATION DU SERVEUR
     initMatchs()
     print("Matchs initialisés\n\n")
+
+    for (match in objetMatchs.ListeDesMatch) {
+
+        launch { match.updateChrono() }
+        launch { match.updateScores() }
+    }
 
     //LOGIQUE DU ROUTAGE
     routing {

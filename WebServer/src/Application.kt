@@ -8,18 +8,45 @@ import io.ktor.http.*
 import io.ktor.content.*
 import io.ktor.http.content.*
 
+lateinit var  objetMatchs : ListeDesMatch
+lateinit var objetParis :ListeDesParis
+
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
+
+    //INITIALISATION DU SERVEUR
+    initMatchs()
+    print("Matchs initialisés\n\n")
+
+    //LOGIQUE DU ROUTAGE
     routing {
 
         //Si on est dans un chemin d'api, on doit pouvoir y répondre
         route("/api"){
-            get() {
-                call.respondText("It's API time", contentType = ContentType.Text.Plain)
+            route("match"){
+                get() {
+                    val query = call.request.queryParameters["query"]
+                    //val rep =
+                    //    MatchTracker.handleReq("{\"objectType\":\"request\",\"objectRequested\":\"ListeDesMatchs\",\"idObjectRequested\":\"\"}")
+                    if (query != null) {
+                        val rep = MatchTracker.handleReq(query)
+                        call.respondText(rep, contentType = ContentType.Text.Plain)
+                    }
+                }
             }
+            route("bet"){
+                get() {
+                    val query = call.request.queryParameters["query"]
+                    if (query != null) {
+                        val rep = BetHandler.handleReq(query)
+                        call.respondText(rep, contentType = ContentType.Text.Plain)
+                    }
+                }
+            }
+
         }
 
         //Sinon on sert les pages statiques du site
@@ -37,4 +64,53 @@ fun Application.module(testing: Boolean = false) {
 
     }
 }
+
+
+
+fun initMatchs(){
+    //Initialiser l'objet principal des matchs
+    objetMatchs = ListeDesMatch(arrayOf<Match>())
+
+    //Initialisons maintenant les matchs en cours
+    val m1 = Match(
+        "1",
+        "Toronto Maple Leafs",
+        "Canadiens de Montreal",
+        0,
+        1,
+        intArrayOf(0, 0),
+        intArrayOf(0, 0),
+        intArrayOf(0, 0),
+        arrayOf("")
+    )
+
+    val m2 = Match(
+        "2",
+        "New York Rangers",
+        "Jets de Winnipeg",
+        2000,
+        2,
+        intArrayOf(1, 3),
+        intArrayOf(2, 0),
+        intArrayOf(0, 0),
+        arrayOf("Carton Rouge","Carton Jaune")
+    )
+
+    val m3 = Match(
+        "3",
+        "Sherbrooke Phoenix",
+        "Red Wings de Detroit",
+        3300,
+        3,
+        intArrayOf(1, 3),
+        intArrayOf(5, 0),
+        intArrayOf(1, 3),
+        arrayOf("Carton Rouge")
+    )
+
+    objetMatchs.ListeDesMatch = arrayOf<Match>(m1,m2,m3)
+
+
+}
+
 

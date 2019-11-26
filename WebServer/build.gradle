@@ -34,5 +34,6 @@ dependencies {
     compile "ch.qos.logback:logback-classic:$logback_version"
     compile "io.ktor:ktor-server-core:$ktor_version"
     compile "io.ktor:ktor-server-host-common:$ktor_version"
+    implementation 'com.beust:klaxon:5.0.1'
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
 }

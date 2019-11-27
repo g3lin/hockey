@@ -12,9 +12,11 @@
     <title>HockeyNite</title>
   </head>
   <body>
-    <nav href="#" class="refresh">
-        <img src="images/refresh.png" alt="refresh">
-    </nav>
+    <a href="javascript:void(0);" onclick="UpdateAll()">
+        <nav class="refresh">
+            <img src="images/refresh.png" alt="refresh">
+        </nav>
+    </a>
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
             <!-- Navbar content -->
@@ -54,9 +56,10 @@
         <h1>Bienvenue dans HockeyNite!</h1>
     </div>
 
-    <div class="d-flex flex-row justify-content-center">
+    <div class="text-center">
+        
 
-        <div class="card" style="width: 18rem;">
+        <div id="match1" class="card" style="width: 18rem;">
             <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title"><b>Match 1</b></h5>
@@ -65,6 +68,9 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><b>Chronomètre :</b>
                     <nav class="chrono" id="1-chrono">00:00</nav>
+                </li>
+                <li class="list-group-item"><b>Période en cours :</b>
+                    <nav class="chrono" id="1-periode">0</nav>
                 </li>
                 <li class="list-group-item"><b>Scores :</b>
                         <table class="table">
@@ -130,43 +136,354 @@
         </div>
 
     </div>
-        
 
-        <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">match 2</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
-            </div>
 
-        <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Match 3</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
+
+
+
+
+
+
+        <div id="match2" class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"><b>Match 2</b></h5>
+                <p class="card-text"><b id="2-E1">Equipe 1</b>   <i> vs </i>  <b id="2-E2">Equipe 2</b> </p>
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Chronomètre :</b>
+                    <nav class="chrono" id="2-chrono">00:00</nav>
+                </li>
+                <li class="list-group-item"><b>Période en cours :</b>
+                    <nav class="chrono" id="2-periode">0</nav>
+                </li>
+                <li class="list-group-item"><b>Scores :</b>
+                        <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">P1</th>
+                                    <th scope="col">P2</th>
+                                    <th scope="col">P3</th>
+                                    <th scope="col">Final</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Eq1</th>
+                                    <td id="2-ScoreP1E1">0</td>
+                                    <td id="2-ScoreP2E1">0</td>
+                                    <td id="2-ScoreP3E1">0</td>
+                                    <td id="2-ScoreTotE1">0</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Eq2</th>
+                                    <td id="2-ScoreP1E2">0</td>
+                                    <td id="2-ScoreP2E2">0</td>
+                                    <td id="2-ScoreP3E2">0</td>
+                                    <td id="2-ScoreTotE2">0</td>
+                                  </tr>
+                                  
+                                </tbody>
+                              </table>
+                </li>
+                <li class="list-group-item"><b>Penalités :</b>
+                    <br>
+                    <div id="2-pena">Aucune pénalité</div>
+                </li>
+                
+                
+            </ul>
+            <div class="card-body">
+                <b>Parier sur ce match</b> <br>
+                <form onsubmit="processbet()" method="post"> 
+                    <input type="hidden" name="match"  value="2">
+
+                    <div class="form-group">
+                        <label for="2-bE">Équipe sur laquelle parier</label>
+                        <select name="Equipe" class="form-control">
+                                <option value="0" id="2-E1b">Equipe 1</option>
+                                <option value="1" id="2-E2b">Equipe 2</option>
+                        </select> 
+                    </div>
+
+                    <div class="form-group">
+                        <label for="2-bE">Montant à parier</label>
+                        <input type="number" name="montant" min="0" max="500" id="2-bM" class="form-control">
+                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                    <input type="submit" value="Valider le pari" class="btn btn-primary">
+
+                </form>
+
+                
+                
+            </div>
+        </div>
 
     </div>
+
+
+
+
+
+
+        <div id="match3" class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"><b>Match 3</b></h5>
+                <p class="card-text"><b id="3-E1">Equipe 1</b>   <i> vs </i>  <b id="3-E2">Equipe 2</b> </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Chronomètre :</b>
+                    <nav class="chrono" id="3-chrono">00:00</nav>
+                </li>
+                <li class="list-group-item"><b>Période en cours :</b>
+                    <nav class="chrono" id="3-periode">0</nav>
+                </li>
+                <li class="list-group-item"><b>Scores :</b>
+                        <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">P1</th>
+                                    <th scope="col">P2</th>
+                                    <th scope="col">P3</th>
+                                    <th scope="col">Final</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Eq1</th>
+                                    <td id="3-ScoreP1E1">0</td>
+                                    <td id="3-ScoreP2E1">0</td>
+                                    <td id="3-ScoreP3E1">0</td>
+                                    <td id="3-ScoreTotE1">0</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Eq2</th>
+                                    <td id="3-ScoreP1E2">0</td>
+                                    <td id="3-ScoreP2E2">0</td>
+                                    <td id="3-ScoreP3E2">0</td>
+                                    <td id="3-ScoreTotE2">0</td>
+                                  </tr>
+                                  
+                                </tbody>
+                              </table>
+                </li>
+                <li class="list-group-item"><b>Penalités :</b>
+                    <br>
+                    <div id="3-pena">Aucune pénalité</div>
+                </li>
+                
+                
+            </ul>
+            <div class="card-body">
+                <b>Parier sur ce match</b> <br>
+                <form onsubmit="processbet()" method="post"> 
+                    <input type="hidden" name="match"  value="3">
+
+                    <div class="form-group">
+                        <label for="3-bE">Équipe sur laquelle parier</label>
+                        <select name="Equipe" class="form-control">
+                                <option value="0" id="3-E1b">Equipe 1</option>
+                                <option value="1" id="3-E2b">Equipe 2</option>
+                        </select> 
+                    </div>
+
+                    <div class="form-group">
+                        <label for="3-bE">Montant à parier</label>
+                        <input type="number" name="montant" min="0" max="500" id="3-bM" class="form-control">
+                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                    <input type="submit" value="Valider le pari" class="btn btn-primary">
+
+                </form>
+
+                
+                
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+        <div id="match4" class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"><b>Match 4</b></h5>
+                <p class="card-text"><b id="4-E1">Equipe 1</b>   <i> vs </i>  <b id="4-E2">Equipe 2</b> </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Chronomètre :</b>
+                    <nav class="chrono" id="4-chrono">00:00</nav>
+                </li>
+                <li class="list-group-item"><b>Période en cours :</b>
+                    <nav class="chrono" id="4-periode">0</nav>
+                </li>
+                <li class="list-group-item"><b>Scores :</b>
+                        <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">P1</th>
+                                    <th scope="col">P2</th>
+                                    <th scope="col">P3</th>
+                                    <th scope="col">Final</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Eq1</th>
+                                    <td id="4-ScoreP1E1">0</td>
+                                    <td id="4-ScoreP2E1">0</td>
+                                    <td id="4-ScoreP3E1">0</td>
+                                    <td id="4-ScoreTotE1">0</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Eq2</th>
+                                    <td id="4-ScoreP1E2">0</td>
+                                    <td id="4-ScoreP2E2">0</td>
+                                    <td id="4-ScoreP3E2">0</td>
+                                    <td id="4-ScoreTotE2">0</td>
+                                  </tr>
+                                  
+                                </tbody>
+                              </table>
+                </li>
+                <li class="list-group-item"><b>Penalités :</b>
+                    <br>
+                    <div id="4-pena">Aucune pénalité</div>
+                </li>
+                
+                
+            </ul>
+            <div class="card-body">
+                <b>Parier sur ce match</b> <br>
+                <form onsubmit="processbet()" method="post"> 
+                    <input type="hidden" name="match"  value="4">
+
+                    <div class="form-group">
+                        <label for="4-bE">Équipe sur laquelle parier</label>
+                        <select name="Equipe" class="form-control">
+                                <option value="0" id="4-E1b">Equipe 1</option>
+                                <option value="1" id="4-E2b">Equipe 2</option>
+                        </select> 
+                    </div>
+
+                    <div class="form-group">
+                        <label for="4-bE">Montant à parier</label>
+                        <input type="number" name="montant" min="0" max="500" id="4-bM" class="form-control">
+                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                    <input type="submit" value="Valider le pari" class="btn btn-primary">
+
+                </form>
+
+                
+                
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+        <div id="match5" class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"><b>Match 5</b></h5>
+                <p class="card-text"><b id="5-E1">Equipe 1</b>   <i> vs </i>  <b id="5-E2">Equipe 2</b> </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Chronomètre :</b>
+                    <nav class="chrono" id="5-chrono">00:00</nav>
+                </li>
+                <li class="list-group-item"><b>Période en cours :</b>
+                    <nav class="chrono" id="5-periode">0</nav>
+                </li>
+                <li class="list-group-item"><b>Scores :</b>
+                        <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">P1</th>
+                                    <th scope="col">P2</th>
+                                    <th scope="col">P3</th>
+                                    <th scope="col">Final</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">Eq1</th>
+                                    <td id="5-ScoreP1E1">0</td>
+                                    <td id="5-ScoreP2E1">0</td>
+                                    <td id="5-ScoreP3E1">0</td>
+                                    <td id="5-ScoreTotE1">0</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">Eq2</th>
+                                    <td id="5-ScoreP1E2">0</td>
+                                    <td id="5-ScoreP2E2">0</td>
+                                    <td id="5-ScoreP3E2">0</td>
+                                    <td id="5-ScoreTotE2">0</td>
+                                  </tr>
+                                  
+                                </tbody>
+                              </table>
+                </li>
+                <li class="list-group-item"><b>Penalités :</b>
+                    <br>
+                    <div id="5-pena">Aucune pénalité</div>
+                </li>
+                
+                
+            </ul>
+            <div class="card-body">
+                <b>Parier sur ce match</b> <br>
+                <form onsubmit="processbet()" method="post"> 
+                    <input type="hidden" name="match"  value="5">
+
+                    <div class="form-group">
+                        <label for="5-bE">Équipe sur laquelle parier</label>
+                        <select name="Equipe" class="form-control">
+                                <option value="0" id="5-E1b">Equipe 1</option>
+                                <option value="1" id="5-E2b">Equipe 2</option>
+                        </select> 
+                    </div>
+
+                    <div class="form-group">
+                        <label for="5-bE">Montant à parier</label>
+                        <input type="number" name="montant" min="0" max="500" id="5-bM" class="form-control">
+                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                    <input type="submit" value="Valider le pari" class="btn btn-primary">
+
+                </form>
+
+                
+                
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
 
     <script src="main.js"></script>
     <!-- Optional JavaScript -->

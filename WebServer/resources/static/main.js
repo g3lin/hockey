@@ -24,6 +24,7 @@ function updateMatch(matchID, data){
 
 
 function UpdateAll(){
+
     var xmlhttp = new XMLHttpRequest();
     var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"ListeDesMatchs\", \"idObjectRequested\":\"\"}";
     xmlhttp.open("GET", Url);
@@ -32,26 +33,31 @@ function UpdateAll(){
         json=JSON.parse(xmlhttp.responseText);
         console.log(JSON.stringify(json));
         json.matchIDs.forEach(mID => queryMatch(mID))
-        
+
         if(json["matchIDs"].length<5){document.getElementById("match5").hidden = true}
         if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
         if(json["matchIDs"].length<3){document.getElementById("match3").hidden = true}
         if(json["matchIDs"].length<2){document.getElementById("match2").hidden = true}
-      };
+    };
+
+
 }
+
 
 
 function queryMatch(matchID){
-    var xmlhttp = new XMLHttpRequest();
-    var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"Match\", \"idObjectRequested\":\""+matchID+"\"}";
-    xmlhttp.open("GET", Url);
-    xmlhttp.send();
-    xmlhttp.onload=function(){
-        json=JSON.parse(xmlhttp.responseText);
-        console.log(JSON.stringify(json));
-        updateMatch(matchID, json["match"])
-        
-      };
+    setInterval(function(){
+        var xmlhttp = new XMLHttpRequest();
+        var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"Match\", \"idObjectRequested\":\""+matchID+"\"}";
+        xmlhttp.open("GET", Url);
+        xmlhttp.send();
+        xmlhttp.onload=function(){
+            json=JSON.parse(xmlhttp.responseText);
+            console.log(JSON.stringify(json));
+            updateMatch(matchID, json["match"])
+
+        };
+    }, 1000);
 
 }
 
@@ -59,7 +65,34 @@ function queryMatch(matchID){
 
 
 
-function processBet(){
+function processBet(matchIdBet){
+    alert("methode appelée");
+    var formData = {
+        'Equipe'              : $('input[name=Equipe]').val(),
+        'montant'             : $('input[name=montant]').val(),
+    };
+
+    alert(formData.Equipe + " , " + formData.montant);
+    /*
+    // process the form
+    $.ajax({
+        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+        url         : 'process.php', // the url where we want to POST
+        data        : formData, // our data object
+        dataType    : 'json', // what type of data do we expect back from the server
+                    encode          : true
+    })
+        // using the done promise callback
+        .done(function(data) {
+
+            // log data to the console so we can see
+            console.log(data);
+
+            // here we will handle errors and validation messages
+        });
+
+    // stop the form from submitting the normal way and refreshing the page*/
+    event.preventDefault();
 
 }
 

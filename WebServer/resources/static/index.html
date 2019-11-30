@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,24 +9,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
 
+
+
     <title>HockeyNite</title>
-  </head>
-  <body>
-    <a href="javascript:void(0);" onclick="UpdateAll()">
-        <nav class="refresh">
-            <img src="images/refresh.png" alt="refresh">
-        </nav>
-    </a>
+</head>
+<body>
+<a href="javascript:void(0);" onclick="UpdateAll()">
+    <nav class="refresh">
+        <img src="images/refresh.png" alt="refresh">
+    </nav>
+</a>
 
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-            <!-- Navbar content -->
-            <a class="navbar-brand" href="#">HockeyNite </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <!-- Navbar content -->
+    <a class="navbar-brand" href="#">HockeyNite </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -35,275 +37,107 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+                    Dropdown
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
-            </ul>
-            
-        </div>
-    </nav>
-
-    <div class="padding ">
-        <h1>Bienvenue dans HockeyNite!</h1>
-    </div>
-
-    <div class="text-center">
-        
-
-        <div id="match1" class="card" style="width: 18rem;">
-            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title"><b>Match 1</b></h5>
-                <p class="card-text"><b id="1-E1">Equipe 1</b>   <i> vs </i>  <b id="1-E2">Equipe 2</b> </p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Chronomètre :</b>
-                    <nav class="chrono" id="1-chrono">00:00</nav>
-                </li>
-                <li class="list-group-item"><b>Période en cours :</b>
-                    <nav class="chrono" id="1-periode">0</nav>
-                </li>
-                <li class="list-group-item"><b>Scores :</b>
-                        <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">P1</th>
-                                    <th scope="col">P2</th>
-                                    <th scope="col">P3</th>
-                                    <th scope="col">Final</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">Eq1</th>
-                                    <td id="1-ScoreP1E1">0</td>
-                                    <td id="1-ScoreP2E1">0</td>
-                                    <td id="1-ScoreP3E1">0</td>
-                                    <td id="1-ScoreTotE1">0</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">Eq2</th>
-                                    <td id="1-ScoreP1E2">0</td>
-                                    <td id="1-ScoreP2E2">0</td>
-                                    <td id="1-ScoreP3E2">0</td>
-                                    <td id="1-ScoreTotE2">0</td>
-                                  </tr>
-                                  
-                                </tbody>
-                              </table>
-                </li>
-                <li class="list-group-item"><b>Penalités :</b>
-                    <br>
-                    <div id="1-pena">Aucune pénalité</div>
-                </li>
-                
-                
-            </ul>
-            <div class="card-body">
-                <b>Parier sur ce match</b> <br>
-                <form onsubmit="processbet()" method="post"> 
-                    <input type="hidden" name="match"  value="1">
-
-                    <div class="form-group">
-                        <label for="1-bE">Équipe sur laquelle parier</label>
-                        <select name="Equipe" class="form-control">
-                                <option value="0" id="1-E1b">Equipe 1</option>
-                                <option value="1" id="1-E2b">Equipe 2</option>
-                        </select> 
-                    </div>
-
-                    <div class="form-group">
-                        <label for="1-bE">Montant à parier</label>
-                        <input type="number" name="montant" min="0" max="500" id="1-bM" class="form-control">
-                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
-                    <input type="submit" value="Valider le pari" class="btn btn-primary">
-
-                </form>
-
-                
-                
-            </div>
-        </div>
+        </ul>
 
     </div>
+</nav>
+
+<div class="padding ">
+    <h1>Bienvenue dans HockeyNite!</h1>
+</div>
+
+<div class="text-center">
 
 
-
-
-
-
-
-
-        <div id="match2" class="card" style="width: 18rem;">
-            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title"><b>Match 2</b></h5>
-                <p class="card-text"><b id="2-E1">Equipe 1</b>   <i> vs </i>  <b id="2-E2">Equipe 2</b> </p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Chronomètre :</b>
-                    <nav class="chrono" id="2-chrono">00:00</nav>
-                </li>
-                <li class="list-group-item"><b>Période en cours :</b>
-                    <nav class="chrono" id="2-periode">0</nav>
-                </li>
-                <li class="list-group-item"><b>Scores :</b>
-                        <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">P1</th>
-                                    <th scope="col">P2</th>
-                                    <th scope="col">P3</th>
-                                    <th scope="col">Final</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">Eq1</th>
-                                    <td id="2-ScoreP1E1">0</td>
-                                    <td id="2-ScoreP2E1">0</td>
-                                    <td id="2-ScoreP3E1">0</td>
-                                    <td id="2-ScoreTotE1">0</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">Eq2</th>
-                                    <td id="2-ScoreP1E2">0</td>
-                                    <td id="2-ScoreP2E2">0</td>
-                                    <td id="2-ScoreP3E2">0</td>
-                                    <td id="2-ScoreTotE2">0</td>
-                                  </tr>
-                                  
-                                </tbody>
-                              </table>
-                </li>
-                <li class="list-group-item"><b>Penalités :</b>
-                    <br>
-                    <div id="2-pena">Aucune pénalité</div>
-                </li>
-                
-                
-            </ul>
-            <div class="card-body">
-                <b>Parier sur ce match</b> <br>
-                <form onsubmit="processbet()" method="post"> 
-                    <input type="hidden" name="match"  value="2">
-
-                    <div class="form-group">
-                        <label for="2-bE">Équipe sur laquelle parier</label>
-                        <select name="Equipe" class="form-control">
-                                <option value="0" id="2-E1b">Equipe 1</option>
-                                <option value="1" id="2-E2b">Equipe 2</option>
-                        </select> 
-                    </div>
-
-                    <div class="form-group">
-                        <label for="2-bE">Montant à parier</label>
-                        <input type="number" name="montant" min="0" max="500" id="2-bM" class="form-control">
-                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
-                    <input type="submit" value="Valider le pari" class="btn btn-primary">
-
-                </form>
-
-                
-                
-            </div>
+    <div id="match1" class="card" style="width: 18rem;">
+        <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title"><b>Match 1</b></h5>
+            <p class="card-text"><b id="1-E1">Equipe 1</b>   <i> vs </i>  <b id="1-E2">Equipe 2</b> </p>
         </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Chronomètre :</b>
+                <nav class="chrono" id="1-chrono">00:00</nav>
+            </li>
+            <li class="list-group-item"><b>Période en cours :</b>
+                <nav class="chrono" id="1-periode">0</nav>
+            </li>
+            <li class="list-group-item"><b>Scores :</b>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">P1</th>
+                        <th scope="col">P2</th>
+                        <th scope="col">P3</th>
+                        <th scope="col">Final</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Eq1</th>
+                        <td id="1-ScoreP1E1">0</td>
+                        <td id="1-ScoreP2E1">0</td>
+                        <td id="1-ScoreP3E1">0</td>
+                        <td id="1-ScoreTotE1">0</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Eq2</th>
+                        <td id="1-ScoreP1E2">0</td>
+                        <td id="1-ScoreP2E2">0</td>
+                        <td id="1-ScoreP3E2">0</td>
+                        <td id="1-ScoreTotE2">0</td>
+                    </tr>
 
-    </div>
+                    </tbody>
+                </table>
+            </li>
+            <li class="list-group-item"><b>Penalités :</b>
+                <br>
+                <div id="1-pena">Aucune pénalité</div>
+            </li>
 
 
+        </ul>
+        <div class="card-body">
+            <b>Parier sur ce match</b> <br>
+            <form id="form1">
+                <input type="hidden" name="match"  value="1">
 
+                <div class="form-group">
+                    <label for="1-bE">Équipe sur laquelle parier</label>
+                    <select name="Equipe" class="form-control" id="selectop">
+                        <option value="0" id="1-E1b">Equipe 1</option>
+                        <option value="1" id="1-E2b">Equipe 2</option>
+                    </select>
+                </div>
 
-
-
-        <div id="match3" class="card" style="width: 18rem;">
-            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title"><b>Match 3</b></h5>
-                <p class="card-text"><b id="3-E1">Equipe 1</b>   <i> vs </i>  <b id="3-E2">Equipe 2</b> </p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Chronomètre :</b>
-                    <nav class="chrono" id="3-chrono">00:00</nav>
-                </li>
-                <li class="list-group-item"><b>Période en cours :</b>
-                    <nav class="chrono" id="3-periode">0</nav>
-                </li>
-                <li class="list-group-item"><b>Scores :</b>
-                        <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">P1</th>
-                                    <th scope="col">P2</th>
-                                    <th scope="col">P3</th>
-                                    <th scope="col">Final</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">Eq1</th>
-                                    <td id="3-ScoreP1E1">0</td>
-                                    <td id="3-ScoreP2E1">0</td>
-                                    <td id="3-ScoreP3E1">0</td>
-                                    <td id="3-ScoreTotE1">0</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">Eq2</th>
-                                    <td id="3-ScoreP1E2">0</td>
-                                    <td id="3-ScoreP2E2">0</td>
-                                    <td id="3-ScoreP3E2">0</td>
-                                    <td id="3-ScoreTotE2">0</td>
-                                  </tr>
-                                  
-                                </tbody>
-                              </table>
-                </li>
-                <li class="list-group-item"><b>Penalités :</b>
-                    <br>
-                    <div id="3-pena">Aucune pénalité</div>
-                </li>
-                
-                
-            </ul>
-            <div class="card-body">
-                <b>Parier sur ce match</b> <br>
-                <form onsubmit="processbet()" method="post"> 
-                    <input type="hidden" name="match"  value="3">
-
-                    <div class="form-group">
-                        <label for="3-bE">Équipe sur laquelle parier</label>
-                        <select name="Equipe" class="form-control">
-                                <option value="0" id="3-E1b">Equipe 1</option>
-                                <option value="1" id="3-E2b">Equipe 2</option>
-                        </select> 
-                    </div>
-
-                    <div class="form-group">
-                        <label for="3-bE">Montant à parier</label>
-                        <input type="number" name="montant" min="0" max="500" id="3-bM" class="form-control">
-                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                <div class="form-group">
+                    <label for="1-bE">Montant à parier</label>
+                    <input type="number" name="montant" min="0" max="500" id="1-bM" class="form-control">
+                    <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
                     <input type="submit" value="Valider le pari" class="btn btn-primary">
 
-                </form>
+            </form>
 
-                
-                
-            </div>
+
+
         </div>
     </div>
 
+</div>
 
 
 
@@ -311,186 +145,449 @@
 
 
 
-        <div id="match4" class="card" style="width: 18rem;">
-            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title"><b>Match 4</b></h5>
-                <p class="card-text"><b id="4-E1">Equipe 1</b>   <i> vs </i>  <b id="4-E2">Equipe 2</b> </p>
+
+<div id="match2" class="card" style="width: 18rem;">
+    <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title"><b>Match 2</b></h5>
+        <p class="card-text"><b id="2-E1">Equipe 1</b>   <i> vs </i>  <b id="2-E2">Equipe 2</b> </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>Chronomètre :</b>
+            <nav class="chrono" id="2-chrono">00:00</nav>
+        </li>
+        <li class="list-group-item"><b>Période en cours :</b>
+            <nav class="chrono" id="2-periode">0</nav>
+        </li>
+        <li class="list-group-item"><b>Scores :</b>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">P1</th>
+                    <th scope="col">P2</th>
+                    <th scope="col">P3</th>
+                    <th scope="col">Final</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">Eq1</th>
+                    <td id="2-ScoreP1E1">0</td>
+                    <td id="2-ScoreP2E1">0</td>
+                    <td id="2-ScoreP3E1">0</td>
+                    <td id="2-ScoreTotE1">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">Eq2</th>
+                    <td id="2-ScoreP1E2">0</td>
+                    <td id="2-ScoreP2E2">0</td>
+                    <td id="2-ScoreP3E2">0</td>
+                    <td id="2-ScoreTotE2">0</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </li>
+        <li class="list-group-item"><b>Penalités :</b>
+            <br>
+            <div id="2-pena">Aucune pénalité</div>
+        </li>
+
+
+    </ul>
+    <div class="card-body">
+        <b>Parier sur ce match</b> <br>
+        <form id="form2">
+            <input type="hidden" name="match"  value="2">
+
+            <div class="form-group">
+                <label for="2-bE">Équipe sur laquelle </label>
+                <select id="selectop2" class="form-control">
+                    <option value="0" id="2-E1b">Equipe 1</option>
+                    <option value="1" id="2-E2b">Equipe 2</option>
+                </select>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Chronomètre :</b>
-                    <nav class="chrono" id="4-chrono">00:00</nav>
-                </li>
-                <li class="list-group-item"><b>Période en cours :</b>
-                    <nav class="chrono" id="4-periode">0</nav>
-                </li>
-                <li class="list-group-item"><b>Scores :</b>
-                        <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">P1</th>
-                                    <th scope="col">P2</th>
-                                    <th scope="col">P3</th>
-                                    <th scope="col">Final</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">Eq1</th>
-                                    <td id="4-ScoreP1E1">0</td>
-                                    <td id="4-ScoreP2E1">0</td>
-                                    <td id="4-ScoreP3E1">0</td>
-                                    <td id="4-ScoreTotE1">0</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">Eq2</th>
-                                    <td id="4-ScoreP1E2">0</td>
-                                    <td id="4-ScoreP2E2">0</td>
-                                    <td id="4-ScoreP3E2">0</td>
-                                    <td id="4-ScoreTotE2">0</td>
-                                  </tr>
-                                  
-                                </tbody>
-                              </table>
-                </li>
-                <li class="list-group-item"><b>Penalités :</b>
-                    <br>
-                    <div id="4-pena">Aucune pénalité</div>
-                </li>
-                
-                
-            </ul>
-            <div class="card-body">
-                <b>Parier sur ce match</b> <br>
-                <form onsubmit="processbet()" method="post"> 
-                    <input type="hidden" name="match"  value="4">
 
-                    <div class="form-group">
-                        <label for="4-bE">Équipe sur laquelle parier</label>
-                        <select name="Equipe" class="form-control">
-                                <option value="0" id="4-E1b">Equipe 1</option>
-                                <option value="1" id="4-E2b">Equipe 2</option>
-                        </select> 
-                    </div>
+            <div class="form-group">
+                <label for="2-bE">Montant à parier</label>
+                <input type="number" name="montant2" min="0" max="500" id="2-bM" class="form-control">
+                <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                <input type="submit" value="Valider le pari" class="btn btn-primary">
+        </form>
 
-                    <div class="form-group">
-                        <label for="4-bE">Montant à parier</label>
-                        <input type="number" name="montant" min="0" max="500" id="4-bM" class="form-control">
-                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
-                    <input type="submit" value="Valider le pari" class="btn btn-primary">
-
-                </form>
-
-                
-                
-            </div>
-        </div>
 
 
     </div>
+</div>
+
+</div>
 
 
 
 
-        <div id="match5" class="card" style="width: 18rem;">
-            <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title"><b>Match 5</b></h5>
-                <p class="card-text"><b id="5-E1">Equipe 1</b>   <i> vs </i>  <b id="5-E2">Equipe 2</b> </p>
+
+
+<div id="match3" class="card" style="width: 18rem;">
+    <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title"><b>Match 3</b></h5>
+        <p class="card-text"><b id="3-E1">Equipe 1</b>   <i> vs </i>  <b id="3-E2">Equipe 2</b> </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>Chronomètre :</b>
+            <nav class="chrono" id="3-chrono">00:00</nav>
+        </li>
+        <li class="list-group-item"><b>Période en cours :</b>
+            <nav class="chrono" id="3-periode">0</nav>
+        </li>
+        <li class="list-group-item"><b>Scores :</b>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">P1</th>
+                    <th scope="col">P2</th>
+                    <th scope="col">P3</th>
+                    <th scope="col">Final</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">Eq1</th>
+                    <td id="3-ScoreP1E1">0</td>
+                    <td id="3-ScoreP2E1">0</td>
+                    <td id="3-ScoreP3E1">0</td>
+                    <td id="3-ScoreTotE1">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">Eq2</th>
+                    <td id="3-ScoreP1E2">0</td>
+                    <td id="3-ScoreP2E2">0</td>
+                    <td id="3-ScoreP3E2">0</td>
+                    <td id="3-ScoreTotE2">0</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </li>
+        <li class="list-group-item"><b>Penalités :</b>
+            <br>
+            <div id="3-pena">Aucune pénalité</div>
+        </li>
+
+
+    </ul>
+    <div class="card-body">
+        <b>Parier sur ce match</b> <br>
+        <form id="form3">
+            <input type="hidden" name="match"  value="3">
+
+            <div class="form-group">
+                <label for="3-bE">Équipe sur laquelle parier</label>
+                <select id="selectop3" class="form-control">
+                    <option value="0" id="3-E1b">Equipe 1</option>
+                    <option value="1" id="3-E2b">Equipe 2</option>
+                </select>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Chronomètre :</b>
-                    <nav class="chrono" id="5-chrono">00:00</nav>
-                </li>
-                <li class="list-group-item"><b>Période en cours :</b>
-                    <nav class="chrono" id="5-periode">0</nav>
-                </li>
-                <li class="list-group-item"><b>Scores :</b>
-                        <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">P1</th>
-                                    <th scope="col">P2</th>
-                                    <th scope="col">P3</th>
-                                    <th scope="col">Final</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">Eq1</th>
-                                    <td id="5-ScoreP1E1">0</td>
-                                    <td id="5-ScoreP2E1">0</td>
-                                    <td id="5-ScoreP3E1">0</td>
-                                    <td id="5-ScoreTotE1">0</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">Eq2</th>
-                                    <td id="5-ScoreP1E2">0</td>
-                                    <td id="5-ScoreP2E2">0</td>
-                                    <td id="5-ScoreP3E2">0</td>
-                                    <td id="5-ScoreTotE2">0</td>
-                                  </tr>
-                                  
-                                </tbody>
-                              </table>
-                </li>
-                <li class="list-group-item"><b>Penalités :</b>
-                    <br>
-                    <div id="5-pena">Aucune pénalité</div>
-                </li>
-                
-                
-            </ul>
-            <div class="card-body">
-                <b>Parier sur ce match</b> <br>
-                <form onsubmit="processbet()" method="post"> 
-                    <input type="hidden" name="match"  value="5">
 
-                    <div class="form-group">
-                        <label for="5-bE">Équipe sur laquelle parier</label>
-                        <select name="Equipe" class="form-control">
-                                <option value="0" id="5-E1b">Equipe 1</option>
-                                <option value="1" id="5-E2b">Equipe 2</option>
-                        </select> 
-                    </div>
+            <div class="form-group">
+                <label for="3-bE">Montant à parier</label>
+                <input type="number" name="montant3" min="0" max="500" id="3-bM" class="form-control">
+                <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                <input type="submit" value="Valider le pari" class="btn btn-primary">
 
-                    <div class="form-group">
-                        <label for="5-bE">Montant à parier</label>
-                        <input type="number" name="montant" min="0" max="500" id="5-bM" class="form-control">
-                        <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
-                    <input type="submit" value="Valider le pari" class="btn btn-primary">
+        </form>
 
-                </form>
 
-                
-                
+
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+<div id="match4" class="card" style="width: 18rem;">
+    <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title"><b>Match 4</b></h5>
+        <p class="card-text"><b id="4-E1">Equipe 1</b>   <i> vs </i>  <b id="4-E2">Equipe 2</b> </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>Chronomètre :</b>
+            <nav class="chrono" id="4-chrono">00:00</nav>
+        </li>
+        <li class="list-group-item"><b>Période en cours :</b>
+            <nav class="chrono" id="4-periode">0</nav>
+        </li>
+        <li class="list-group-item"><b>Scores :</b>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">P1</th>
+                    <th scope="col">P2</th>
+                    <th scope="col">P3</th>
+                    <th scope="col">Final</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">Eq1</th>
+                    <td id="4-ScoreP1E1">0</td>
+                    <td id="4-ScoreP2E1">0</td>
+                    <td id="4-ScoreP3E1">0</td>
+                    <td id="4-ScoreTotE1">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">Eq2</th>
+                    <td id="4-ScoreP1E2">0</td>
+                    <td id="4-ScoreP2E2">0</td>
+                    <td id="4-ScoreP3E2">0</td>
+                    <td id="4-ScoreTotE2">0</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </li>
+        <li class="list-group-item"><b>Penalités :</b>
+            <br>
+            <div id="4-pena">Aucune pénalité</div>
+        </li>
+
+
+    </ul>
+    <div class="card-body">
+        <b>Parier sur ce match</b> <br>
+        <form id="form4">
+            <input type="hidden" name="match"  value="4">
+
+            <div class="form-group">
+                <label for="4-bE">Équipe sur laquelle parier</label>
+                <select name="Equipe" class="form-control">
+                    <option value="0" id="4-E1b">Equipe 1</option>
+                    <option value="1" id="4-E2b">Equipe 2</option>
+                </select>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="4-bE">Montant à parier</label>
+                <input type="number" name="montant" min="0" max="500" id="4-bM" class="form-control">
+                <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                <input type="submit" value="Valider le pari" class="btn btn-primary">
+
+        </form>
 
 
 
-
-
-
-
-
-
-
-
-
+    </div>
+</div>
 
 
 </div>
 
 
-    <script src="main.js"></script>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+
+
+<div id="match5" class="card" style="width: 18rem;">
+    <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title"><b>Match 5</b></h5>
+        <p class="card-text"><b id="5-E1">Equipe 1</b>   <i> vs </i>  <b id="5-E2">Equipe 2</b> </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>Chronomètre :</b>
+            <nav class="chrono" id="5-chrono">00:00</nav>
+        </li>
+        <li class="list-group-item"><b>Période en cours :</b>
+            <nav class="chrono" id="5-periode">0</nav>
+        </li>
+        <li class="list-group-item"><b>Scores :</b>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">P1</th>
+                    <th scope="col">P2</th>
+                    <th scope="col">P3</th>
+                    <th scope="col">Final</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">Eq1</th>
+                    <td id="5-ScoreP1E1">0</td>
+                    <td id="5-ScoreP2E1">0</td>
+                    <td id="5-ScoreP3E1">0</td>
+                    <td id="5-ScoreTotE1">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">Eq2</th>
+                    <td id="5-ScoreP1E2">0</td>
+                    <td id="5-ScoreP2E2">0</td>
+                    <td id="5-ScoreP3E2">0</td>
+                    <td id="5-ScoreTotE2">0</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </li>
+        <li class="list-group-item"><b>Penalités :</b>
+            <br>
+            <div id="5-pena">Aucune pénalité</div>
+        </li>
+
+
+    </ul>
+    <div class="card-body">
+        <b>Parier sur ce match</b> <br>
+        <form onsubmit="processbet(5)" method="post">
+            <input type="hidden" name="match"  value="5">
+
+            <div class="form-group">
+                <label for="5-bE">Équipe sur laquelle parier</label>
+                <select name="Equipe" class="form-control">
+                    <option value="0" id="5-E1b">Equipe 1</option>
+                    <option value="1" id="5-E2b">Equipe 2</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="5-bE">Montant à parier</label>
+                <input type="number" name="montant" min="0" max="500" id="5-bM" class="form-control">
+                <small id="emailHelp" class="form-text text-muted">Montant en CA$</small>
+                <input type="submit" value="Valider le pari" class="btn btn-primary">
+
+        </form>
+
+
+
+    </div>
+</div>
+
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.slim.js"
+        integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    function pariCallServer(matchIdPari,equipe,montant){
+        var result ;
+        var xmlhttp = new XMLHttpRequest();
+        var Url = "/api/bet?query={%22objectType%22:%22betUpdate%22,%22Bet%22:{%22matchID%22:%22"+matchIdPari+"%22,%22miseSur%22:"+equipe+",%22sommeMisee%22:"+montant+",}}";
+        xmlhttp.open("GET", Url);
+        xmlhttp.send();
+        xmlhttp.onload=function(){
+            json=JSON.parse(xmlhttp.responseText);
+            result = json['status'];
+            if(result == "0"){
+                alert("pari est réussit");
+            }else{
+                alert("pari est échoué");
+            }
+        };
+
+        return result;
+    }
+
+    async function pariStatus(matchIdPari,equipe,montant){
+        var result = await pariCallServer(matchIdPari,equipe,montant);
+        console.log(result);
+    }
+
+    $(function () {
+        $('#form1').on('submit',function(event) {
+
+            var formData = {
+                'Equipe'              : $('#selectop option:selected').val(),
+                'montant'             : $('input[name=montant]').val(),
+            };
+            pariStatus(1,formData.Equipe,formData.montant);
+            event.preventDefault();
+
+        })
+    });
+
+    $(function () {
+        $('#form2').on('submit',function(event) {
+            var formData = {
+                'Equipe'              : $('#selectop2 option:selected').val(),
+                'montant'             : $('input[name=montant2]').val(),
+            };
+            pariStatus(2,formData.Equipe,formData.montant);
+            event.preventDefault();
+
+        })
+    });
+
+
+    $(function () {
+        $('#form3').on('submit',function(event) {
+            var formData = {
+                'Equipe'              : $('#selectop3 option:selected').val(),
+                'montant'             : $('input[name=montant3]').val(),
+            };
+            pariStatus(3,formData.Equipe,formData.montant);
+            event.preventDefault();
+
+        })
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    window.navigator.geolocation.getCurrentPosition(
+        (position) => {
+        document.cookie="latitude="+position.coords.latitude;
+    document.cookie="longitude="+position.coords.longitude;
+    }, //there is one method to update state object : setState !!
+    (err) => alert(err.message)
+
+    );
+
+    checkCookies();
+    function checkCookies(){
+        var lat = document.cookie.indexOf('latitude=');
+        var lon = document.cookie.indexOf('longitude=');
+        if(lat != -1 && lon != -1){
+            alert("Your location is already stocked in website cookies => "+getCookie('latitude') +" , " + getCookie('longitude'));
+        }else{
+            alert("You have set permission of geolocation");
+        }
+    }
+
+</script>
+
+<script src="main.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 
 </body>
 </html>

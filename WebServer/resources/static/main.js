@@ -25,6 +25,8 @@ function updateMatch(matchID, data){
 
 function UpdateAll(){
 
+    //--------------------------------------Old Version----------------------------------
+    /*
     var xmlhttp = new XMLHttpRequest();
     var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"ListeDesMatchs\", \"idObjectRequested\":\"\"}";
     xmlhttp.open("GET", Url);
@@ -38,7 +40,21 @@ function UpdateAll(){
         if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
         if(json["matchIDs"].length<3){document.getElementById("match3").hidden = true}
         if(json["matchIDs"].length<2){document.getElementById("match2").hidden = true}
-    };
+      };*/
+
+    var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"ListeDesMatchs\", \"idObjectRequested\":\"\"}";
+    fetch(Url).then(function(response) {
+        response.text().then(function(text) {
+            json=JSON.parse(text);
+            console.log(JSON.stringify(json));
+            json.matchIDs.forEach(mID => queryMatch(mID))
+
+            if(json["matchIDs"].length<5){document.getElementById("match5").hidden = true}
+            if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
+            if(json["matchIDs"].length<3){document.getElementById("match3").hidden = true}
+            if(json["matchIDs"].length<2){document.getElementById("match2").hidden = true}
+        });
+    });
 
 
 }
@@ -46,7 +62,10 @@ function UpdateAll(){
 
 
 function queryMatch(matchID){
+
     setInterval(function(){
+        //--------------------------------------Old Version----------------------------------
+        /*
         var xmlhttp = new XMLHttpRequest();
         var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"Match\", \"idObjectRequested\":\""+matchID+"\"}";
         xmlhttp.open("GET", Url);
@@ -57,7 +76,20 @@ function queryMatch(matchID){
             updateMatch(matchID, json["match"])
 
         };
+        }, 1000);*/
+
+        var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"Match\", \"idObjectRequested\":\""+matchID+"\"}";
+        fetch(Url).then(function(response) {
+            response.text().then(function(text) {
+                json=JSON.parse(text);
+                updateMatch(matchID, json["match"]);
+
+            });
+
+        });
     }, 1000);
+
+
 
 }
 

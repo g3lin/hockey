@@ -78,6 +78,7 @@ fun initMatchs(){
     //Initialiser l'objet principal des matchs
     objetMatchs = ListeDesMatch(arrayOf<Match>())
 
+    objetParis = ListeDesParis(arrayOf<Paris>())
     //Initialisons maintenant les matchs en cours
     val m1 = Match(
         "1",

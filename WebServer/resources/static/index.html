@@ -508,6 +508,40 @@
     </div>
 </div>
 
+
+
+</div>
+
+<table class="table" id="myTable">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">MatchID</th>
+        <th scope="col">Pari Sur</th>
+        <th scope="col">Montant</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--<tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>-->
+    </tbody>
+</table>
 </div>
 
 <script
@@ -516,6 +550,23 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+    function remplirTableParis(){
+        $("#myTable tbody tr").remove();
+        let lineNo = 1;
+        presetsArr = JSON.parse(localStorage.getItem('paris')) || [];
+        for (const object in presetsArr) {
+            markup = "<tr><th scope='row'>"
+                + lineNo + "</th><td>"+presetsArr[object].matchID+"</td><td>"+presetsArr[object].Equipe+"</td><td>"+presetsArr[object].montant+"</td></tr>";
+            tableBody = $("#myTable tbody");
+            tableBody.append(markup);
+            lineNo++;
+        }
+
+    }
+
+    remplirTableParis();
+
+
     function pariCallServer(matchIdPari,equipe,montant){
         var result ;
         var xmlhttp = new XMLHttpRequest();
@@ -540,15 +591,23 @@
         console.log(result);
     }
 
+    function addPariToLocalStorage(formData){
+        presetsArr = JSON.parse(localStorage.getItem('paris')) || [];
+        presetsArr.push(formData);
+        localStorage.setItem("paris", JSON.stringify(presetsArr));
+    }
+
     $(function () {
         $('#form1').on('submit',function(event) {
 
             var formData = {
+                'matchID' : 1,
                 'Equipe'              : $('#selectop option:selected').val(),
                 'montant'             : $('input[name=montant]').val(),
             };
             pariStatus(1,formData.Equipe,formData.montant);
-            //document.getElementById("pulse-button").style.boxShadow = "0 0 0 0 rgba(0, 76, 61, 0.7)";
+            addPariToLocalStorage(formData);
+            remplirTableParis();
             event.preventDefault();
 
         })
@@ -557,10 +616,13 @@
     $(function () {
         $('#form2').on('submit',function(event) {
             var formData = {
+                'matchID' : 2,
                 'Equipe'              : $('#selectop2 option:selected').val(),
                 'montant'             : $('input[name=montant2]').val(),
             };
             pariStatus(2,formData.Equipe,formData.montant);
+            addPariToLocalStorage(formData);
+            remplirTableParis();
             event.preventDefault();
 
         })
@@ -570,10 +632,13 @@
     $(function () {
         $('#form3').on('submit',function(event) {
             var formData = {
+                'matchID' : 3,
                 'Equipe'              : $('#selectop3 option:selected').val(),
                 'montant'             : $('input[name=montant3]').val(),
             };
             pariStatus(3,formData.Equipe,formData.montant);
+            addPariToLocalStorage(formData);
+            remplirTableParis();
             event.preventDefault();
 
         })

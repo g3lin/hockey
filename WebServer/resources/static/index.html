@@ -28,66 +28,10 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
+
 
     </div>
 </nav>
-<style>
-    .container {
-        width: 200px;
-        height: 100%;
-        margin: 0 auto 0;
-    }
-
-    #pulse-button {
-
-        position: relative;
-        width: 100px;
-        height: 100px;
-        border: none;
-        box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
-        border-radius: 50%;
-        background-color: #3de868;
-        background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/173024/jonathanlarradet_copy.png);
-        background-size:cover;
-        background-repeat: no-repeat;
-        cursor: pointer;
-        -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-        -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-        -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-        animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-    }
-    .pulse-button:hover
-    {
-        -webkit-animation: none;-moz-animation: none;-ms-animation: none;animation: none;
-    }
-
-    @-webkit-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
-    @-moz-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
-    @-ms-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
-    @keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
-</style>
 
 <div class="padding ">
     <h1>Bienvenue dans HockeyNite!</h1>
@@ -97,8 +41,7 @@
 </div>
 
 <div class="text-center">
-
-
+    
     <div id="match1" class="card" style="width: 18rem;">
         <img class="card-img-top" src="images/hockey.jpg" alt="Card image cap">
         <div class="card-body">
@@ -522,24 +465,6 @@
     </tr>
     </thead>
     <tbody>
-    <!--<tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>-->
     </tbody>
 </table>
 </div>
@@ -550,139 +475,12 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    function remplirTableParis(){
-        $("#myTable tbody tr").remove();
-        let lineNo = 1;
-        presetsArr = JSON.parse(localStorage.getItem('paris')) || [];
-        for (const object in presetsArr) {
-            markup = "<tr><th scope='row'>"
-                + lineNo + "</th><td>"+presetsArr[object].matchID+"</td><td>"+presetsArr[object].Equipe+"</td><td>"+presetsArr[object].montant+"</td></tr>";
-            tableBody = $("#myTable tbody");
-            tableBody.append(markup);
-            lineNo++;
-        }
 
-    }
-
-    remplirTableParis();
-
-
-    function pariCallServer(matchIdPari,equipe,montant){
-        var result ;
-        var xmlhttp = new XMLHttpRequest();
-        var Url = "/api/bet?query={%22objectType%22:%22betUpdate%22,%22Bet%22:{%22matchID%22:%22"+matchIdPari+"%22,%22miseSur%22:"+equipe+",%22sommeMisee%22:"+montant+",}}";
-        xmlhttp.open("GET", Url);
-        xmlhttp.send();
-        xmlhttp.onload=function(){
-            json=JSON.parse(xmlhttp.responseText);
-            result = json['status'];
-            if(result == "0"){
-                alert("pari est réussit");
-            }else{
-                alert("pari est échoué");
-            }
-        };
-
-        return result;
-    }
-
-    async function pariStatus(matchIdPari,equipe,montant){
-        var result = await pariCallServer(matchIdPari,equipe,montant);
-        console.log(result);
-    }
-
-    function addPariToLocalStorage(formData){
-        presetsArr = JSON.parse(localStorage.getItem('paris')) || [];
-        presetsArr.push(formData);
-        localStorage.setItem("paris", JSON.stringify(presetsArr));
-    }
-
-    $(function () {
-        $('#form1').on('submit',function(event) {
-
-            var formData = {
-                'matchID' : 1,
-                'Equipe'              : $('#selectop option:selected').val(),
-                'montant'             : $('input[name=montant]').val(),
-            };
-            pariStatus(1,formData.Equipe,formData.montant);
-            addPariToLocalStorage(formData);
-            remplirTableParis();
-            event.preventDefault();
-
-        })
-    });
-
-    $(function () {
-        $('#form2').on('submit',function(event) {
-            var formData = {
-                'matchID' : 2,
-                'Equipe'              : $('#selectop2 option:selected').val(),
-                'montant'             : $('input[name=montant2]').val(),
-            };
-            pariStatus(2,formData.Equipe,formData.montant);
-            addPariToLocalStorage(formData);
-            remplirTableParis();
-            event.preventDefault();
-
-        })
-    });
-
-
-    $(function () {
-        $('#form3').on('submit',function(event) {
-            var formData = {
-                'matchID' : 3,
-                'Equipe'              : $('#selectop3 option:selected').val(),
-                'montant'             : $('input[name=montant3]').val(),
-            };
-            pariStatus(3,formData.Equipe,formData.montant);
-            addPariToLocalStorage(formData);
-            remplirTableParis();
-            event.preventDefault();
-
-        })
-    });
 
 
 </script>
 
 <script type="text/javascript">
-    function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i <ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-
-    window.navigator.geolocation.getCurrentPosition(
-        (position) => {
-        document.cookie="latitude="+position.coords.latitude;
-    document.cookie="longitude="+position.coords.longitude;
-    }, //there is one method to update state object : setState !!
-    (err) => alert(err.message)
-
-    );
-
-    checkCookies();
-    function checkCookies(){
-        var lat = document.cookie.indexOf('latitude=');
-        var lon = document.cookie.indexOf('longitude=');
-        if(lat != -1 && lon != -1){
-            alert("Your location is already stocked in website cookies => "+getCookie('latitude') +" , " + getCookie('longitude'));
-        }else{
-            alert("You have set permission of geolocation");
-        }
-    }
 
 </script>
 

@@ -104,7 +104,7 @@ function queryMatch(matchID){
 
         }).catch(function(error){
             document.getElementById("pulse-button").style.backgroundImage = "url('./sad.png')";
-            document.getElementById("pulse-button").style.backgroundColor = "red";
+            //document.getElementById("pulse-button").style.backgroundColor = "red";
 
         });
     }, 1000);
@@ -114,40 +114,140 @@ function queryMatch(matchID){
 }
 
 
-
-
-
-function processBet(matchIdBet){
-    alert("methode appelée");
-    var formData = {
-        'Equipe'              : $('input[name=Equipe]').val(),
-        'montant'             : $('input[name=montant]').val(),
-    };
-
-    alert(formData.Equipe + " , " + formData.montant);
-    /*
-    // process the form
-    $.ajax({
-        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-        url         : 'process.php', // the url where we want to POST
-        data        : formData, // our data object
-        dataType    : 'json', // what type of data do we expect back from the server
-                    encode          : true
-    })
-        // using the done promise callback
-        .done(function(data) {
-
-            // log data to the console so we can see
-            console.log(data);
-
-            // here we will handle errors and validation messages
-        });
-
-    // stop the form from submitting the normal way and refreshing the page*/
-    event.preventDefault();
+// DOM handling
+function remplirTableParis(){
+    $("#myTable tbody tr").remove();
+    let lineNo = 1;
+    presetsArr = JSON.parse(localStorage.getItem('paris')) || [];
+    for (const object in presetsArr) {
+        markup = "<tr><th scope='row'>"
+            + lineNo + "</th><td>"+presetsArr[object].matchID+"</td><td>"+presetsArr[object].Equipe+"</td><td>"+presetsArr[object].montant+"</td></tr>";
+        tableBody = $("#myTable tbody");
+        tableBody.append(markup);
+        lineNo++;
+    }
 
 }
 
+remplirTableParis();
+
+// XMLHTTP + status check
+function pariCallServer(matchIdPari,equipe,montant){
+    var result ;
+    var xmlhttp = new XMLHttpRequest();
+    var Url = "/api/bet?query={%22objectType%22:%22betUpdate%22,%22Bet%22:{%22matchID%22:%22"+matchIdPari+"%22,%22miseSur%22:"+equipe+",%22sommeMisee%22:"+montant+",}}";
+    xmlhttp.open("GET", Url);
+    xmlhttp.send();
+    xmlhttp.onload=function(){
+        json=JSON.parse(xmlhttp.responseText);
+        result = json['status'];
+        if(result == "0"){
+            alert("pari est réussit");
+        }else{
+            alert("pari est échoué");
+        }
+
+        return new Promise(resolve => {
+            resolve(json['status']
+    )
+    })
+    };
+
+}
+// async await for promesse from pariscall server bets call
+async function pariStatus(matchIdPari,equipe,montant){
+    var result = await pariCallServer(matchIdPari,equipe,montant);
+    console.log(result);
+}
+// serialisation example
+function addPariToLocalStorage(formData){
+    presetsArr = JSON.parse(localStorage.getItem('paris')) || [];
+    presetsArr.push(formData);
+    localStorage.setItem("paris", JSON.stringify(presetsArr));
+}
+
+$(function () {
+    $('#form1').on('submit',function(event) {
+
+        var formData = {
+            'matchID' : 1,
+            'Equipe'              : $('#selectop option:selected').val(),
+            'montant'             : $('input[name=montant]').val(),
+        };
+        pariStatus(1,formData.Equipe,formData.montant);
+        addPariToLocalStorage(formData);
+        remplirTableParis();
+        event.preventDefault();
+
+    })
+});
+
+$(function () {
+    $('#form2').on('submit',function(event) {
+        var formData = {
+            'matchID' : 2,
+            'Equipe'              : $('#selectop2 option:selected').val(),
+            'montant'             : $('input[name=montant2]').val(),
+        };
+        pariStatus(2,formData.Equipe,formData.montant);
+        addPariToLocalStorage(formData);
+        remplirTableParis();
+        event.preventDefault();
+
+    })
+});
+
+
+$(function () {
+    $('#form3').on('submit',function(event) {
+        var formData = {
+            'matchID' : 3,
+            'Equipe'              : $('#selectop3 option:selected').val(),
+            'montant'             : $('input[name=montant3]').val(),
+        };
+        pariStatus(3,formData.Equipe,formData.montant);
+        addPariToLocalStorage(formData);
+        remplirTableParis();
+        event.preventDefault();
+
+    })
+});
+// cookies reading
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+// get navigation geolocation
+window.navigator.geolocation.getCurrentPosition(
+    (position) => {
+    document.cookie="latitude="+position.coords.latitude;
+document.cookie="longitude="+position.coords.longitude;
+}, //there is one method to update state object : setState !!
+(err) => alert(err.message)
+
+);
+
+checkCookies();
+function checkCookies(){
+    var lat = document.cookie.indexOf('latitude=');
+    var lon = document.cookie.indexOf('longitude=');
+    if(lat != -1 && lon != -1){
+        alert("Your location is already stocked in website cookies => "+getCookie('latitude') +" , " + getCookie('longitude'));
+    }else{
+        alert("You have set permission of geolocation");
+    }
+}
 
 
 

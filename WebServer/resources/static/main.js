@@ -46,15 +46,22 @@ function UpdateAll(){
     fetch(Url).then(function(response) {
         response.text().then(function(text) {
             json=JSON.parse(text);
-            console.log(JSON.stringify(json));
-            json.matchIDs.forEach(mID => queryMatch(mID))
+            if(json != null){
+                //document.getElementById("pulse-button").style.box-shadow= "blue";
+                document.getElementById("pulse-button").style.backgroundImage = "url('happy.png')";
+                console.log(JSON.stringify(json));
+                json.matchIDs.forEach(mID => queryMatch(mID))
 
-            if(json["matchIDs"].length<5){document.getElementById("match5").hidden = true}
-            if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
-            if(json["matchIDs"].length<3){document.getElementById("match3").hidden = true}
-            if(json["matchIDs"].length<2){document.getElementById("match2").hidden = true}
+                if(json["matchIDs"].length<5){document.getElementById("match5").hidden = true}
+                if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
+                if(json["matchIDs"].length<3){document.getElementById("match3").hidden = true}
+                if(json["matchIDs"].length<2){document.getElementById("match2").hidden = true}
+            }else{
+                document.getElementById("pulse-button").style.backgroundImage = "url('sad.png')";
+            }
         });
     });
+
 
 
 }
@@ -82,9 +89,22 @@ function queryMatch(matchID){
         fetch(Url).then(function(response) {
             response.text().then(function(text) {
                 json=JSON.parse(text);
-                updateMatch(matchID, json["match"]);
+                if(json != null){
+                    //document.getElementById("pulse-button").style.box-shadow= "blue";
+                    document.getElementById("pulse-button").style.backgroundColor = "green";
+                    document.getElementById("pulse-button").style.backgroundImage = "url('./happy.png')";
+                    updateMatch(matchID, json["match"]);
+                }else{
+
+                }
 
             });
+
+        }).then(function(response){
+
+        }).catch(function(error){
+            document.getElementById("pulse-button").style.backgroundImage = "url('./sad.png')";
+            document.getElementById("pulse-button").style.backgroundColor = "red";
 
         });
     }, 1000);

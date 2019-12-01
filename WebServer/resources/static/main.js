@@ -91,7 +91,7 @@ function queryMatch(matchID){
                 json=JSON.parse(text);
                 if(json != null){
                     //document.getElementById("pulse-button").style.box-shadow= "blue";
-                    document.getElementById("pulse-button").style.backgroundColor = "green";
+                    document.getElementById("pulse-button").style.backgroundColor = "#3de868";
                     document.getElementById("pulse-button").style.backgroundImage = "url('./happy.png')";
                     updateMatch(matchID, json["match"]);
                 }else{

@@ -1,4 +1,4 @@
-function updateMatch(matchID, data){
+function updateMatch(matchID, data, silent){
     console.log(matchID+"-E1")
     document.getElementById(matchID+"-E1").innerHTML = data["nomEquipe1"]
     document.getElementById(matchID+"-E2").innerHTML = data["nomEquipe2"]
@@ -8,22 +8,105 @@ function updateMatch(matchID, data){
     document.getElementById(matchID+"-chrono").innerHTML = Math.floor(parseInt(data["chronometreSec"])/60)+":"+parseInt(data["chronometreSec"])%60
     document.getElementById(matchID+"-periode").innerHTML = data["PeriodeEnCours"]
 
-    document.getElementById(matchID+"-ScoreP1E1").innerHTML = data["scoreP1"].split(",")[0]
-    document.getElementById(matchID+"-ScoreP2E1").innerHTML = data["scoreP2"].split(",")[0]
-    document.getElementById(matchID+"-ScoreP3E1").innerHTML = data["scoreP3"].split(",")[0]
+    if(document.getElementById(matchID+"-ScoreP1E1").innerHTML != data["scoreP1"].split(",")[0] ){
+        if (window.Notification && Notification.permission !== "denied" && !silent) {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('BUT !!!', {
+                    body: data["nomEquipe1"]+'a marqué un but !',
+                    
+                })
+            })
+        }
+        document.getElementById(matchID+"-ScoreP1E1").innerHTML = data["scoreP1"].split(",")[0]
+    }
+
+    if(document.getElementById(matchID+"-ScoreP2E1").innerHTML != data["scoreP2"].split(",")[0]){
+        if (window.Notification && Notification.permission !== "denied" && !silent) {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('BUT !!!', {
+                    body: data["nomEquipe1"]+'a marqué un but !',
+                    
+                })
+            })
+        }
+        document.getElementById(matchID+"-ScoreP2E1").innerHTML = data["scoreP2"].split(",")[0]
+    }
+    if(document.getElementById(matchID+"-ScoreP3E1").innerHTML != data["scoreP3"].split(",")[0] ){
+        if (window.Notification && Notification.permission !== "denied" && !silent) {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('BUT !!!', {
+                    body: data["nomEquipe1"]+'a marqué un but !',
+                    
+                })
+            })
+        }
+        document.getElementById(matchID+"-ScoreP3E1").innerHTML = data["scoreP3"].split(",")[0]
+    }
     document.getElementById(matchID+"-ScoreTotE1").innerHTML = parseInt(data["scoreP1"].split(",")[0])+parseInt(data["scoreP2"].split(",")[0])+parseInt(data["scoreP3"].split(",")[0])
 
-    document.getElementById(matchID+"-ScoreP1E2").innerHTML = data["scoreP1"].split(",")[1].trim()
-    document.getElementById(matchID+"-ScoreP2E2").innerHTML = data["scoreP2"].split(",")[1].trim()
-    document.getElementById(matchID+"-ScoreP3E2").innerHTML = data["scoreP3"].split(",")[1].trim()
+
+    if(document.getElementById(matchID+"-ScoreP1E2").innerHTML != data["scoreP1"].split(",")[1].trim()){
+        if (window.Notification && Notification.permission !== "denied" && !silent) {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('BUT !!!', {
+                    body: data["nomEquipe2"]+'a marqué un but !',
+                    
+                })
+            })
+        }
+        document.getElementById(matchID+"-ScoreP1E2").innerHTML = data["scoreP1"].split(",")[1].trim()
+    }
+
+    if(document.getElementById(matchID+"-ScoreP2E2").innerHTML != data["scoreP2"].split(",")[1].trim() ){
+        if (window.Notification && Notification.permission !== "denied" && !silent) {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('BUT !!!', {
+                    body: data["nomEquipe2"]+'a marqué un but !',
+                    
+                })
+            })
+        }
+        document.getElementById(matchID+"-ScoreP2E2").innerHTML = data["scoreP2"].split(",")[1].trim()
+    }
+
+    if(document.getElementById(matchID+"-ScoreP3E2").innerHTML != data["scoreP3"].split(",")[1].trim() ){
+        if (window.Notification && Notification.permission !== "denied" && !silent) {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('BUT !!!', {
+                    body: data["nomEquipe2"]+'a marqué un but !',
+                    
+                })
+            })
+        }
+        document.getElementById(matchID+"-ScoreP3E2").innerHTML = data["scoreP3"].split(",")[1].trim()
+    }
+
     document.getElementById(matchID+"-ScoreTotE2").innerHTML = parseInt(data["scoreP1"].split(",")[1].trim()) + parseInt(data["scoreP2"].split(",")[1].trim()) + parseInt(data["scoreP3"].split(",")[1].trim())
 
-    document.getElementById(matchID+"-pena").innerHTML = data["penalites"]
+
+    if(document.getElementById(matchID+"-pena").innerHTML != data["penalites"] ){
+        if (window.Notification && Notification.permission !== "denied" && !silent) {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('PEANLITÉ !!!', {
+                    body: "Nouvelle penalité dans le match "+matchID,
+                    
+                })
+            })
+        }
+        document.getElementById(matchID+"-pena").innerHTML = data["penalites"]
+    }
 }
 
 
 
-function UpdateAll(){
+function UpdateAll(silent){
 
     //--------------------------------------Old Version----------------------------------
     /*
@@ -50,7 +133,7 @@ function UpdateAll(){
                 //document.getElementById("pulse-button").style.box-shadow= "blue";
                 document.getElementById("pulse-button").style.backgroundImage = "url('happy.png')";
                 console.log(JSON.stringify(json));
-                json.matchIDs.forEach(mID => queryMatch(mID))
+                json.matchIDs.forEach(mID => queryMatch(mID,silent))
 
                 if(json["matchIDs"].length<5){document.getElementById("match5").hidden = true}
                 if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
@@ -68,9 +151,9 @@ function UpdateAll(){
 
 
 
-function queryMatch(matchID){
+function queryMatch(matchID,silent){
 
-    setInterval(function(){
+    
         //--------------------------------------Old Version----------------------------------
         /*
         var xmlhttp = new XMLHttpRequest();
@@ -93,7 +176,7 @@ function queryMatch(matchID){
                     //document.getElementById("pulse-button").style.box-shadow= "blue";
                     document.getElementById("pulse-button").style.backgroundColor = "#3de868";
                     document.getElementById("pulse-button").style.backgroundImage = "url('./happy.png')";
-                    updateMatch(matchID, json["match"]);
+                    updateMatch(matchID, json["match"],silent);
                 }else{
 
                 }
@@ -107,7 +190,7 @@ function queryMatch(matchID){
             //document.getElementById("pulse-button").style.backgroundColor = "red";
 
         });
-    }, 1000);
+    
 
 
 
@@ -136,7 +219,7 @@ function pariCallServer(matchIdPari,equipe,montant){
     var result ;
     var xmlhttp = new XMLHttpRequest();
     var Url = "/api/bet?query={%22objectType%22:%22betUpdate%22,%22Bet%22:{%22matchID%22:%22"+matchIdPari+"%22,%22miseSur%22:"+equipe+",%22sommeMisee%22:"+montant+",}}";
-    xmlhttp.open("GET", Url);
+    xmlhttp.open("POST", Url);
     xmlhttp.send();
     xmlhttp.onload=function(){
         json=JSON.parse(xmlhttp.responseText);
@@ -228,11 +311,14 @@ function getCookie(cname) {
     }
     return "";
 }
+if (window.Notification && Notification.permission !== "granted") {
+    Notification.requestPermission()
+}
 // get navigation geolocation
 window.navigator.geolocation.getCurrentPosition(
     (position) => {
     document.cookie="latitude="+position.coords.latitude;
-document.cookie="longitude="+position.coords.longitude;
+    document.cookie="longitude="+position.coords.longitude;
 }, //there is one method to update state object : setState !!
 (err) => alert(err.message)
 
@@ -243,12 +329,31 @@ function checkCookies(){
     var lat = document.cookie.indexOf('latitude=');
     var lon = document.cookie.indexOf('longitude=');
     if(lat != -1 && lon != -1){
-        alert("Your location is already stocked in website cookies => "+getCookie('latitude') +" , " + getCookie('longitude'));
+        if (window.Notification && Notification.permission !== "denied") {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('Géo', {
+                    body: "Your location is already stocked in website cookies => "+getCookie('latitude') +" , " + getCookie('longitude'),
+                    
+                })
+            })
+        }
+        
+        
     }else{
-        alert("You have set permission of geolocation");
+        if (window.Notification && Notification.permission !== "denied") {
+            Notification.requestPermission((status) => {
+            // status is "granted", if accepted by user
+                var n = new Notification('Géo', {
+                    body: "Your location is already stocked in website cookies => "+getCookie('latitude') +" , " + getCookie('longitude'),
+                    
+                })
+            })
+        }
     }
 }
 
 
+UpdateAll(true)
 
-UpdateAll()
+setInterval(function(){UpdateAll(false)},120000)

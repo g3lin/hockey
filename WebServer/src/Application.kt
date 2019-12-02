@@ -45,7 +45,7 @@ fun Application.module(testing: Boolean = false) {
                 }
             }
             route("bet"){
-                get() {
+                post() {
                     val query = call.request.queryParameters["query"]
                     if (query != null) {
                         val rep = BetHandler.handleReq(query)
@@ -54,6 +54,18 @@ fun Application.module(testing: Boolean = false) {
                 }
             }
 
+        }
+
+        route("/put"){
+                put(){
+                    call.respondText("Appel PUT recu");
+                }
+        }
+
+        route("/delete"){
+            delete(){
+                call.respondText("Appel DELETE recu");
+            }
         }
 
         //Sinon on sert les pages statiques du site

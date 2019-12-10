@@ -85,11 +85,7 @@ fun Application.module(testing: Boolean = false) {
         }
 
 
-        get("/testDB"){
-            var note = APIHandler.retrieveDBbyAuthor("0")
-            call.respondText("note!!.body", ContentType.Text.Plain)
 
-        }
 
         static{
             resource("/", "static/index.html") // single star will only resolve the first part

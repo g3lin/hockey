@@ -1,57 +1,74 @@
 function addNotes(){
+ var author = document.getElementById("fNoteAuthor").value
+  var body = document.getElementById("fNoteBody").value
+ var priority = document.getElementById("fNotePriority").value
+ var date = document.getElementById("fNoteDate").value
+ var uniSpe = document.getElementById("fNoteUniSpe").checked
+
+ var xmlhttp = new XMLHttpRequest();
+    var Url = "/api/addNote?author="+author+"&body="+body+"&uniOnly="+uniSpe+"&priority="+priority+"&date="+date;
+    xmlhttp.open("POST", Url);
+    xmlhttp.send();
+    xmlhttp.onload=function(){
+        UpdateAll()
+    };
+
+    return false
 
 }
+
+
 function resetHTML(){
     str = `
     <div id="addNoteBox" class="card" style="width: 18rem;">
-            <img class="card-img-top" src="images/note.png" alt="Note">
-            <div class="card-body">
-                <h5 class="card-title"><b>Nouvelle Note</b></h5>
+    <img class="card-img-top" src="images/note.png" alt="Note">
+    <div class="card-body">
+        <h5 class="card-title"><b>Nouvelle Note</b></h5>
+    </div>
+    <ul class="list-group list-group-flush">
+
+        <form  id="addNote" >
+        <li class="list-group-item"><b>Texte :</b>
+            <div class="body" >
+                <textarea class="form-control" id="fNoteBody" rows="3" required></textarea>
             </div>
-            <ul class="list-group list-group-flush">
+        </li>
+        <li class="list-group-item">
+            <div class="elem">
+                <b>Auteur : </b>
+                <input id="fNoteAuthor" type="text" class="form-control"  placeholder="Username"  required>
 
-                <form id="addNote">
-                <li class="list-group-item"><b>Texte :</b>
-                    <div class="body">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required=""></textarea>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="elem">
-                        <b>Auteur : </b>
-                        <input type="text" class="form-control" placeholder="Username" required="" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" autocomplete="off">
+            </div>
+            <div class="elem">
+                <b>Priorité : </b>
+                <input id="fNotePriority" type="number" name="montant" min="0" max="100" class="form-control" required>
 
-                    </div>
-                    <div class="elem">
-                        <b>Priorité : </b>
-                        <input type="number" name="montant" min="0" max="100" class="form-control" required="">
+            </div>
+            <div class="elem">
+                <b>Date : </b>
+                <input id="fNoteDate" type="text" class="form-control"  placeholder="2019-12-31" required>
 
-                    </div>
-                    <div class="elem">
-                        <b>Date : </b>
-                        <input type="text" class="form-control" placeholder="2019-12-31" required="">
+            </div>
+            <div class="elem">
+                <b>Doit etre fait à l'université : </b><br>
+                <input id="fNoteUniSpe" type="checkbox" class="form-check-input" id="exampleCheck1">
+                <br class="elem">
+                <br class="elem">
 
-                    </div>
-                    <div class="elem">
-                        <b>Doit etre fait à l'université : </b><br>
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <br class="elem">
-                        <br class="elem">
-
-                    </div>
-                    <input type="submit" value="Valider la note" class=" elem btn btn-primary">
+            </div>
+            <input type="submit" value="Valider la note" class=" elem btn btn-primary">
 
 
-                </li>
+        </li>
 
 
-                </form>
+        </form>
 
 
 
-            </ul>
+    </ul>
 
-        </div>
+</div>
     `
 
     document.getElementById("notesArea").innerHTML = str
@@ -59,6 +76,8 @@ function resetHTML(){
 
 
 function UpdateAll(){
+
+resetHTML()
 
  var author = document.getElementById("validationCustomUsername").value
 
@@ -186,6 +205,14 @@ function checkCookies(){
         }
     }
 }
+
+$(function () {
+    $('#addNote').on('submit',function(event) {
+				addNotes()
+        event.preventDefault();
+
+    })
+});
 
 
 UpdateAll()

@@ -41,7 +41,7 @@ class FirstPage extends StatelessWidget{
                 fontFamily: "Poppins",
               ),
               controller: texteditcontrol,
-              onSubmitted: _submission,
+              onChanged: _submission,
             ),
             RaisedButton(
               child: Text('Get my notes'),

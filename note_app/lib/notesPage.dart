@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'note.dart';
 
@@ -5,6 +7,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'name.dart';
+import 'popup.dart';
+import 'pooup_content.dart';
 
 var test;
 
@@ -16,10 +20,10 @@ class NoteList extends StatefulWidget {
 
 }
 
-class 
+
 class _NoteListState extends State<NoteList> {
-
-
+  final TextEditingController body = new TextEditingController();
+  DateTime _dateTime = null;
   Future<List<Note>> _getNotes()async{
 
     var data = await http.get("http://10.0.2.2:8080/api/getNotes?author="+name);
@@ -36,37 +40,90 @@ class _NoteListState extends State<NoteList> {
 
     return notes;
   }
+  Future _postNote()async{
+    print("hello " + content);
+    priority = 0;
+    unionly = false;
+    date = _dateTime;
+    var link = await http.post("http://10.0.2.2:8080/api/addNote?author="+name+"&body="+content+"&uniOnly="+unionly.toString()+"&priority="+ priority.toString()+"&date="+date.toString());
+    print("status"+link.statusCode.toString());
+    return link;
+  }
+  Widget _popupBody() {
+    return  Scaffold(
+        body: Container(
+            padding:
+            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+            child: Builder(
+                builder: (context) => Form(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          TextFormField(
+                            decoration:
+                            InputDecoration(labelText: 'Note info'),
+                            controller: body,
+                            onChanged: _submissionbody,
+                          ),
+                          RaisedButton(
+                            child: Text('Pick your due date'),
+                            onPressed: (){
+                              showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2010), lastDate: DateTime(2050)).then((date){
+                                setState(() {
+                                  _dateTime = date;
+                                });
+                              });
+                            },
+                          ),
+                            RaisedButton(
+                              child: Text('submit'),
+                              onPressed:(){
+                                _postNote();
+                                try {
+                                  Navigator.pop(context); //close the popup
+                                } catch (e) {}
+                              } ,
 
-  /*List<Note> notes=[
-    Note(id:'5453UGUFYD65' ,body: 'hello Mr body1',author: 'soufiane',date: DateTime.now(), priority: 2,uniOnly:true ),
-    Note(id:'5453UGUFYD65' ,body: 'hello Mr body2',author: 'TEST',date: DateTime.now(), priority: 1,uniOnly:false ),
-    Note(id:'5453UGUFYD65' ,body: 'hello Mr body3',author: 'HELLO',date: DateTime.now(), priority:3,uniOnly:true ),
-  ];*/
-Widget NoteTemplate(note){
-  return Card(
-    margin: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
-    child: Column(
-      children: <Widget>[
-        Text(
-          note.body,
-          style: TextStyle(
-            fontSize: 18.0,
-            color: Colors.grey[600],
+                            ),
+                        ])
+                )
+            )
+        )
+    );
+  }
+  showPopup(BuildContext context, Widget widget, String title,
+      {BuildContext popupContext}) {
+    Navigator.push(
+      context,
+      PopupLayout(
+        top: 30,
+        left: 30,
+        right: 30,
+        bottom: 50,
+        child: PopupContent(
+          content: Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+              leading: new Builder(builder: (context) {
+                return IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    try {
+                      Navigator.pop(context); //close the popup
+                    } catch (e) {}
+                  },
+                );
+              }),
+              brightness: Brightness.light,
+            ),
+            resizeToAvoidBottomPadding: false,
+            body: widget,
           ),
         ),
-        SizedBox(height: 6.0),
-        Text(
-          note.date,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: Colors.grey,
-          ),
-        )
-      ],
-    ),
-  );
+      ),
+    );
+  }
 
-}
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +172,17 @@ Widget NoteTemplate(note){
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showPopup(context, _popupBody(), 'Add note');
+        },
+        tooltip: 'Open Popup',
+        child: Icon(Icons.add),
+      ),
     );
+  }
+  void _submissionbody(String value) {
+    content = body.text;
+    print(content);
   }
 }

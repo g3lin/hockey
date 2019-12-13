@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/name.dart';
 import 'notesPage.dart';
 String Name ;
 class FirstPage extends StatelessWidget{
@@ -14,6 +15,7 @@ class FirstPage extends StatelessWidget{
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
@@ -50,7 +52,7 @@ class FirstPage extends StatelessWidget{
                   // but if you have a more complex app, you will quickly get lost.
                   MaterialPageRoute(
                     builder: (context) =>
-                        NoteList() ,
+                        NoteList(name:texteditcontrol.text) ,
                   ),
                 );
               },
@@ -63,6 +65,7 @@ class FirstPage extends StatelessWidget{
 
   void _submission(String value) {
     Name = texteditcontrol.text;
-    print(Name);
+    name = Name;
+    print(name);
   }
 }

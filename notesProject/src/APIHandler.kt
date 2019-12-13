@@ -20,4 +20,5 @@ object APIHandler {
         col.insertOne(Note(newId(),author,body,uniOnly,priority, date))
 
     }
+
 }

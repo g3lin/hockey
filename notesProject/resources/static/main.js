@@ -1,164 +1,153 @@
-function updateMatch(matchID, data, silent){
-    document.getElementById(matchID+"-E1").innerHTML = data["nomEquipe1"]
-    document.getElementById(matchID+"-E2").innerHTML = data["nomEquipe2"]
-    document.getElementById(matchID+"-E1b").innerHTML = data["nomEquipe1"]
-    document.getElementById(matchID+"-E2b").innerHTML = data["nomEquipe2"]
+function addNotes(){
+ var author = document.getElementById("fNoteAuthor").value
+  var body = document.getElementById("fNoteBody").value
+ var priority = document.getElementById("fNotePriority").value
+ var date = document.getElementById("fNoteDate").value
+ var uniSpe = document.getElementById("fNoteUniSpe").checked
 
-    document.getElementById(matchID+"-chrono").innerHTML = Math.floor(parseInt(data["chronometreSec"])/60)+":"+parseInt(data["chronometreSec"])%60
-    document.getElementById(matchID+"-periode").innerHTML = data["PeriodeEnCours"]
-
-    if(document.getElementById(matchID+"-ScoreP1E1").innerHTML != data["scoreP1"].split(",")[0] ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe1"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP1E1").innerHTML = data["scoreP1"].split(",")[0]
-    }
-
-    if(document.getElementById(matchID+"-ScoreP2E1").innerHTML != data["scoreP2"].split(",")[0]){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe1"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP2E1").innerHTML = data["scoreP2"].split(",")[0]
-    }
-    if(document.getElementById(matchID+"-ScoreP3E1").innerHTML != data["scoreP3"].split(",")[0] ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe1"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP3E1").innerHTML = data["scoreP3"].split(",")[0]
-    }
-    document.getElementById(matchID+"-ScoreTotE1").innerHTML = parseInt(data["scoreP1"].split(",")[0])+parseInt(data["scoreP2"].split(",")[0])+parseInt(data["scoreP3"].split(",")[0])
-
-
-    if(document.getElementById(matchID+"-ScoreP1E2").innerHTML != data["scoreP1"].split(",")[1].trim()){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe2"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP1E2").innerHTML = data["scoreP1"].split(",")[1].trim()
-    }
-
-    if(document.getElementById(matchID+"-ScoreP2E2").innerHTML != data["scoreP2"].split(",")[1].trim() ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe2"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP2E2").innerHTML = data["scoreP2"].split(",")[1].trim()
-    }
-
-    if(document.getElementById(matchID+"-ScoreP3E2").innerHTML != data["scoreP3"].split(",")[1].trim() ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe2"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP3E2").innerHTML = data["scoreP3"].split(",")[1].trim()
-    }
-
-    document.getElementById(matchID+"-ScoreTotE2").innerHTML = parseInt(data["scoreP1"].split(",")[1].trim()) + parseInt(data["scoreP2"].split(",")[1].trim()) + parseInt(data["scoreP3"].split(",")[1].trim())
-
-
-    if(document.getElementById(matchID+"-pena").innerHTML != data["penalites"] ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('PEANLITÉ !!!', {
-                    body: "Nouvelle penalité dans le match "+matchID,
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-pena").innerHTML = data["penalites"]
-    }
-}
-
-
-
-function UpdateAll(silent){
-
-    var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"ListeDesMatchs\", \"idObjectRequested\":\"\"}";
-    fetch(Url).then(function(response) {
-        response.text().then(function(text) {
-            json=JSON.parse(text);
-            if(json != null){
-                //document.getElementById("pulse-button").style.box-shadow= "blue";
-                document.getElementById("pulse-button").style.backgroundImage = "url('happy.png')";
-                console.log(JSON.stringify(json));
-                json.matchIDs.forEach(mID => queryMatch(mID,silent))
-
-                if(json["matchIDs"].length<5){document.getElementById("match5").hidden = true}
-                if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
-                if(json["matchIDs"].length<3){document.getElementById("match3").hidden = true}
-                if(json["matchIDs"].length<2){document.getElementById("match2").hidden = true}
-            }else{
-                document.getElementById("pulse-button").style.backgroundImage = "url('sad.png')";
-            }
-        });
-    });
-
-
-
-}
-
-
-
-
-
-
-// XMLHTTP + status check
-function pariCallServer(matchIdPari,equipe,montant){
-    var result ;
-    var xmlhttp = new XMLHttpRequest();
-    var Url = "/api/bet?query={%22objectType%22:%22betUpdate%22,%22Bet%22:{%22matchID%22:%22"+matchIdPari+"%22,%22miseSur%22:"+equipe+",%22sommeMisee%22:"+montant+",}}";
+ var xmlhttp = new XMLHttpRequest();
+    var Url = "/api/addNote?author="+author+"&body="+body+"&uniOnly="+uniSpe+"&priority="+priority+"&date="+date;
     xmlhttp.open("POST", Url);
     xmlhttp.send();
     xmlhttp.onload=function(){
-        json=JSON.parse(xmlhttp.responseText);
-        result = json['status'];
-        if(result == "0"){
-            alert("pari est réussit");
-        }else{
-            alert("pari est échoué");
-        }
+        UpdateAll()
+    };
 
-        return new Promise(resolve => {
-            resolve(json['status']
-    )
-    })
+    return false
+
+}
+
+
+function resetHTML(){
+    str = `
+    <div id="addNoteBox" class="card" style="width: 18rem;">
+    <img class="card-img-top" src="images/note.png" alt="Note">
+    <div class="card-body">
+        <h5 class="card-title"><b>Nouvelle Note</b></h5>
+    </div>
+    <ul class="list-group list-group-flush">
+
+        <form  id="addNote" >
+        <li class="list-group-item"><b>Texte :</b>
+            <div class="body" >
+                <textarea class="form-control" id="fNoteBody" rows="3" required></textarea>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="elem">
+                <b>Auteur : </b>
+                <input id="fNoteAuthor" type="text" class="form-control"  placeholder="Username"  required>
+
+            </div>
+            <div class="elem">
+                <b>Priorité : </b>
+                <input id="fNotePriority" type="number" name="montant" min="0" max="100" class="form-control" required>
+
+            </div>
+            <div class="elem">
+                <b>Date : </b>
+                <input id="fNoteDate" type="text" class="form-control"  placeholder="2019-12-31" required>
+
+            </div>
+            <div class="elem">
+                <b>Doit etre fait à l'université : </b><br>
+                <input id="fNoteUniSpe" type="checkbox" class="form-check-input" id="exampleCheck1">
+                <br class="elem">
+                <br class="elem">
+
+            </div>
+            <input type="submit" value="Valider la note" class=" elem btn btn-primary">
+
+
+        </li>
+
+
+        </form>
+
+
+
+    </ul>
+
+</div>
+    `
+
+    document.getElementById("notesArea").innerHTML = str
+}
+
+
+function UpdateAll(){
+
+resetHTML()
+
+ var author = document.getElementById("validationCustomUsername").value
+
+
+ var xmlhttp = new XMLHttpRequest();
+    var Url = "/api/getNotes?author="+author;
+    xmlhttp.open("GET", Url);
+    xmlhttp.send();
+    xmlhttp.onload=function(){
+        json=JSON.parse(xmlhttp.responseText);
+        var i =0
+        for (obj in json){
+                i++
+                var str = `
+                <div id="addNoteBox" class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="images/note.png" alt="Note">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Note n°${i}</b></h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+
+                            <form id="addNote">
+                            <li class="list-group-item"><b>Texte :</b>
+                                <div class="body" >
+                                ${json[obj]["body"]} 
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="elem">
+                                    <b>Auteur : </b>
+                                    ${json[obj]["author"]} 
+                                </div>
+                                <div class="elem">
+                                    <b>Priorité : </b>
+                                    ${json[obj]["priority"]} 
+                                </div>
+                                <div class="elem">
+                                    <b>Date : </b>
+                                    ${json[obj]["date"]} 
+                                </div>
+                                <div class="elem">
+                                    <b>Doit etre fait à l'université : </b><br>
+                                    ${json[obj]["uniOnly"]}                                     <br class="elem">
+                                    <br class="elem">
+
+                                </div>
+
+
+                            </li>
+
+
+                            </form>
+
+
+
+                        </ul>
+
+                    </div>
+                `
+
+
+                document.getElementById("notesArea").insertAdjacentHTML("beforeend",str)
+        }
     };
 
 }
+
+
+
+
 // cookies reading
 function getCookie(cname) {
     var name = cname + "=";
@@ -217,7 +206,13 @@ function checkCookies(){
     }
 }
 
+$(function () {
+    $('#addNote').on('submit',function(event) {
+				addNotes()
+        event.preventDefault();
 
-UpdateAll(true)
+    })
+});
 
-setInterval(function(){UpdateAll(false)},120000)
+
+UpdateAll()

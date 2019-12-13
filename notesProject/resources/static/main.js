@@ -1,164 +1,134 @@
-function updateMatch(matchID, data, silent){
-    document.getElementById(matchID+"-E1").innerHTML = data["nomEquipe1"]
-    document.getElementById(matchID+"-E2").innerHTML = data["nomEquipe2"]
-    document.getElementById(matchID+"-E1b").innerHTML = data["nomEquipe1"]
-    document.getElementById(matchID+"-E2b").innerHTML = data["nomEquipe2"]
+function addNotes(){
 
-    document.getElementById(matchID+"-chrono").innerHTML = Math.floor(parseInt(data["chronometreSec"])/60)+":"+parseInt(data["chronometreSec"])%60
-    document.getElementById(matchID+"-periode").innerHTML = data["PeriodeEnCours"]
+}
+function resetHTML(){
+    str = `
+    <div id="addNoteBox" class="card" style="width: 18rem;">
+            <img class="card-img-top" src="images/note.png" alt="Note">
+            <div class="card-body">
+                <h5 class="card-title"><b>Nouvelle Note</b></h5>
+            </div>
+            <ul class="list-group list-group-flush">
 
-    if(document.getElementById(matchID+"-ScoreP1E1").innerHTML != data["scoreP1"].split(",")[0] ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe1"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP1E1").innerHTML = data["scoreP1"].split(",")[0]
-    }
+                <form id="addNote">
+                <li class="list-group-item"><b>Texte :</b>
+                    <div class="body">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required=""></textarea>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="elem">
+                        <b>Auteur : </b>
+                        <input type="text" class="form-control" placeholder="Username" required="" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" autocomplete="off">
 
-    if(document.getElementById(matchID+"-ScoreP2E1").innerHTML != data["scoreP2"].split(",")[0]){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe1"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP2E1").innerHTML = data["scoreP2"].split(",")[0]
-    }
-    if(document.getElementById(matchID+"-ScoreP3E1").innerHTML != data["scoreP3"].split(",")[0] ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe1"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP3E1").innerHTML = data["scoreP3"].split(",")[0]
-    }
-    document.getElementById(matchID+"-ScoreTotE1").innerHTML = parseInt(data["scoreP1"].split(",")[0])+parseInt(data["scoreP2"].split(",")[0])+parseInt(data["scoreP3"].split(",")[0])
+                    </div>
+                    <div class="elem">
+                        <b>Priorité : </b>
+                        <input type="number" name="montant" min="0" max="100" class="form-control" required="">
+
+                    </div>
+                    <div class="elem">
+                        <b>Date : </b>
+                        <input type="text" class="form-control" placeholder="2019-12-31" required="">
+
+                    </div>
+                    <div class="elem">
+                        <b>Doit etre fait à l'université : </b><br>
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <br class="elem">
+                        <br class="elem">
+
+                    </div>
+                    <input type="submit" value="Valider la note" class=" elem btn btn-primary">
 
 
-    if(document.getElementById(matchID+"-ScoreP1E2").innerHTML != data["scoreP1"].split(",")[1].trim()){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe2"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP1E2").innerHTML = data["scoreP1"].split(",")[1].trim()
-    }
-
-    if(document.getElementById(matchID+"-ScoreP2E2").innerHTML != data["scoreP2"].split(",")[1].trim() ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe2"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP2E2").innerHTML = data["scoreP2"].split(",")[1].trim()
-    }
-
-    if(document.getElementById(matchID+"-ScoreP3E2").innerHTML != data["scoreP3"].split(",")[1].trim() ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('BUT !!!', {
-                    body: data["nomEquipe2"]+'a marqué un but !',
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-ScoreP3E2").innerHTML = data["scoreP3"].split(",")[1].trim()
-    }
-
-    document.getElementById(matchID+"-ScoreTotE2").innerHTML = parseInt(data["scoreP1"].split(",")[1].trim()) + parseInt(data["scoreP2"].split(",")[1].trim()) + parseInt(data["scoreP3"].split(",")[1].trim())
+                </li>
 
 
-    if(document.getElementById(matchID+"-pena").innerHTML != data["penalites"] ){
-        if (window.Notification && Notification.permission !== "denied" && !silent) {
-            Notification.requestPermission((status) => {
-            // status is "granted", if accepted by user
-                var n = new Notification('PEANLITÉ !!!', {
-                    body: "Nouvelle penalité dans le match "+matchID,
-                    
-                })
-            })
-        }
-        document.getElementById(matchID+"-pena").innerHTML = data["penalites"]
-    }
+                </form>
+
+
+
+            </ul>
+
+        </div>
+    `
+
+    document.getElementById("notesArea").innerHTML = str
 }
 
 
+function UpdateAll(){
 
-function UpdateAll(silent){
-
-    var Url = "/api/match?query={\"objectType\":\"request\",\"objectRequested\":\"ListeDesMatchs\", \"idObjectRequested\":\"\"}";
-    fetch(Url).then(function(response) {
-        response.text().then(function(text) {
-            json=JSON.parse(text);
-            if(json != null){
-                //document.getElementById("pulse-button").style.box-shadow= "blue";
-                document.getElementById("pulse-button").style.backgroundImage = "url('happy.png')";
-                console.log(JSON.stringify(json));
-                json.matchIDs.forEach(mID => queryMatch(mID,silent))
-
-                if(json["matchIDs"].length<5){document.getElementById("match5").hidden = true}
-                if(json["matchIDs"].length<4){document.getElementById("match4").hidden = true}
-                if(json["matchIDs"].length<3){document.getElementById("match3").hidden = true}
-                if(json["matchIDs"].length<2){document.getElementById("match2").hidden = true}
-            }else{
-                document.getElementById("pulse-button").style.backgroundImage = "url('sad.png')";
-            }
-        });
-    });
+ var author = document.getElementById("validationCustomUsername").value
 
 
-
-}
-
-
-
-
-
-
-// XMLHTTP + status check
-function pariCallServer(matchIdPari,equipe,montant){
-    var result ;
-    var xmlhttp = new XMLHttpRequest();
-    var Url = "/api/bet?query={%22objectType%22:%22betUpdate%22,%22Bet%22:{%22matchID%22:%22"+matchIdPari+"%22,%22miseSur%22:"+equipe+",%22sommeMisee%22:"+montant+",}}";
-    xmlhttp.open("POST", Url);
+ var xmlhttp = new XMLHttpRequest();
+    var Url = "/api/getNotes?author="+author;
+    xmlhttp.open("GET", Url);
     xmlhttp.send();
     xmlhttp.onload=function(){
         json=JSON.parse(xmlhttp.responseText);
-        result = json['status'];
-        if(result == "0"){
-            alert("pari est réussit");
-        }else{
-            alert("pari est échoué");
-        }
+        var i =0
+        for (obj in json){
+                i++
+                var str = `
+                <div id="addNoteBox" class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="images/note.png" alt="Note">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Note n°${i}</b></h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
 
-        return new Promise(resolve => {
-            resolve(json['status']
-    )
-    })
+                            <form id="addNote">
+                            <li class="list-group-item"><b>Texte :</b>
+                                <div class="body" >
+                                ${json[obj]["body"]} 
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="elem">
+                                    <b>Auteur : </b>
+                                    ${json[obj]["author"]} 
+                                </div>
+                                <div class="elem">
+                                    <b>Priorité : </b>
+                                    ${json[obj]["priority"]} 
+                                </div>
+                                <div class="elem">
+                                    <b>Date : </b>
+                                    ${json[obj]["date"]} 
+                                </div>
+                                <div class="elem">
+                                    <b>Doit etre fait à l'université : </b><br>
+                                    ${json[obj]["uniOnly"]}                                     <br class="elem">
+                                    <br class="elem">
+
+                                </div>
+
+
+                            </li>
+
+
+                            </form>
+
+
+
+                        </ul>
+
+                    </div>
+                `
+
+
+                document.getElementById("notesArea").insertAdjacentHTML("beforeend",str)
+        }
     };
 
 }
+
+
+
+
 // cookies reading
 function getCookie(cname) {
     var name = cname + "=";
@@ -218,6 +188,4 @@ function checkCookies(){
 }
 
 
-UpdateAll(true)
-
-setInterval(function(){UpdateAll(false)},120000)
+UpdateAll()

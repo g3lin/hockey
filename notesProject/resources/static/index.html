@@ -11,7 +11,7 @@
 
 
 
-    <title>HockeyNite</title>
+    <title>AlzhaNotes</title>
 </head>
 <body>
 <a href="javascript:void(0);" onclick="UpdateAll()">
@@ -50,7 +50,7 @@
 
 </div>
 
-<div class="text-center">
+<div id="notesArea" class="text-center">
 
     <div id="addNoteBox" class="card" style="width: 18rem;">
         <img class="card-img-top" src="images/note.png" alt="Note">
@@ -61,33 +61,33 @@
 
             <form id="addNote">
             <li class="list-group-item"><b>Texte :</b>
-                <nav class="body" >
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </nav>
+                <div class="body" >
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+                </div>
             </li>
             <li class="list-group-item">
-                <nav class="elem">
+                <div class="elem">
                     <b>Auteur : </b>
-                    <input type="text" class="form-control"  placeholder="Username" required>
+                    <input type="text" class="form-control"  placeholder="Username"  required>
 
-                </nav>
-                <nav class="elem">
+                </div>
+                <div class="elem">
                     <b>Priorité : </b>
-                    <input type="number" name="montant" min="0" max="100" class="form-control">
+                    <input type="number" name="montant" min="0" max="100" class="form-control" required>
 
-                </nav>
-                <nav class="elem">
+                </div>
+                <div class="elem">
                     <b>Date : </b>
                     <input type="text" class="form-control"  placeholder="2019-12-31" required>
 
-                </nav>
-                <nav class="elem">
+                </div>
+                <div class="elem">
                     <b>Doit etre fait à l'université : </b><br>
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <br class="elem">
                     <br class="elem">
 
-                </nav>
+                </div>
                 <input type="submit" value="Valider la note" class=" elem btn btn-primary">
 
 

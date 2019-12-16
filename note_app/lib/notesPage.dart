@@ -31,14 +31,29 @@ class _NoteListState extends State<NoteList> {
     var jsonData = json.decode(data.body);
     print(jsonData);
     List<Note> notes = [];
+    List<Note> uniNotes = [];
+
     for(var u in jsonData){
       print("hello");
       Note note = Note( u["author"], u["body"], u["date"],u["priority"],u["uniOnly"]);
-      notes.add(note);
+      if(note.uniOnly == true){
+        uniNotes.add(note);
+      }
+      else if (note.uniOnly == false) {
+        notes.add(note);
+      }
     }
-    print(notes.length);
 
-    return notes;
+    if(inUni == true)
+      {
+        print("I did the uni true return");
+        return uniNotes;
+      }
+    else{
+      print("i did the return");
+      return notes;
+    }
+
   }
   Future _postNote()async{
     print("hello " + content);

@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/name.dart';
 import 'notesPage.dart';
+import 'package:geolocator/geolocator.dart';
+
 String Name ;
 class FirstPage extends StatelessWidget{
   final TextEditingController texteditcontrol = new TextEditingController();
   @override
   Widget build(BuildContext context) {
 
+    void _getCurrentLocation() async{
+
+      final position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      var uniLat = 45.379059;
+      var uniLong = -71.927256;
+      final distance = await Geolocator().distanceBetween(position.latitude, position.longitude, uniLat, uniLong);
+      print("your current position : "+ position.toString() +" the distance between you and the uni : " );
+      print(distance);
+      if(distance < 1)
+        {
+          inUni = true;
+        }
+      else{
+        inUni  = false;
+      }
+      print(inUni);
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('My super Notessss'),
+        title: Text('Alzhei Notes'),
         centerTitle: true,
         backgroundColor: Colors.greenAccent,
       ),
@@ -46,6 +65,7 @@ class FirstPage extends StatelessWidget{
             RaisedButton(
               child: Text('Get my notes'),
               onPressed: () {
+                _getCurrentLocation();
                 // Pushing a route directly, WITHOUT using a named route
                 Navigator.of(context).push(
                   // With MaterialPageRoute, you can pass data between pages,

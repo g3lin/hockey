@@ -3,3 +3,4 @@ String content;
 DateTime date;
 bool unionly = false;
 int priority;
+bool inUni ;
